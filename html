@@ -1,0 +1,1803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1215">
+<meta name="description" content="A disciplined daily habit tracker with a curated library of 55+ practices, quotes and book summaries.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Discipline">
+<title>Discipline — Daily Habits</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%230f1215'/%3E%3Ccircle cx='256' cy='256' r='146' fill='none' stroke='%23c9a961' stroke-width='30'/%3E%3Cpath d='M180 258l56 56 100-118' fill='none' stroke='%23c9a961' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* =========================================================
+   Discipline Tracker — professional editorial theme
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;-webkit-tap-highlight-color:transparent}
+
+:root{
+  --bg:#0f1215;
+  --bg-2:#12161b;
+  --surface:#161a1f;
+  --surface-2:#1c2127;
+  --surface-3:#232932;
+  --line:#232932;
+  --line-2:#2f3742;
+  --text:#e9ecef;
+  --text-2:#a4acb6;
+  --text-3:#6d7580;
+  --accent:#c9a961;
+  --accent-2:#b8944a;
+  --accent-soft:rgba(201,169,97,.10);
+  --accent-line:rgba(201,169,97,.35);
+  --good:#7da88c;
+  --good-soft:rgba(125,168,140,.14);
+  --danger:#c47b74;
+  --danger-soft:rgba(196,123,116,.12);
+  --r:12px;
+  --r-sm:8px;
+  --r-lg:18px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font:15px/1.55 var(--sans);
+  font-feature-settings:"ss01","cv11";
+  min-height:100vh;
+  padding-bottom:96px;
+}
+@media(min-width:721px){ body{padding-bottom:48px} }
+
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;margin:0 0 8px;color:var(--text);line-height:1.2}
+h1{font-size:26px}
+h2{font-size:20px}
+h3{font-size:17px}
+h4{font-size:15px}
+p{margin:0 0 10px}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky;top:0;z-index:40;
+  background:rgba(15,18,21,.92);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.top-in{
+  max-width:880px;margin:0 auto;padding:14px 20px;
+  display:flex;align-items:center;gap:14px;
+}
+.brand{
+  font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.01em;
+  display:flex;align-items:center;gap:10px;
+}
+.brand .mark{
+  width:26px;height:26px;border-radius:8px;
+  border:1.5px solid var(--accent);
+  display:grid;place-items:center;
+  color:var(--accent);font-size:13px;font-weight:700;
+}
+.brand .name em{font-style:italic;color:var(--accent);font-weight:600}
+.lvl{margin-left:auto;text-align:right;font-size:11px;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
+.lvl b{display:block;font-size:12.5px;color:var(--text-2);letter-spacing:0;text-transform:none;font-weight:600;margin-bottom:4px}
+.bar{width:96px;height:3px;border-radius:2px;background:var(--surface-3);overflow:hidden;margin-left:auto}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .4s ease}
+.gear{
+  background:transparent;border:1px solid var(--line);width:34px;height:34px;
+  border-radius:9px;color:var(--text-2);display:grid;place-items:center;
+  transition:.15s;
+}
+.gear:hover{color:var(--text);border-color:var(--line-2)}
+.gear svg{width:17px;height:17px}
+
+/* ---------- top tabs (desktop) ---------- */
+.tabs{
+  max-width:880px;margin:0 auto;padding:0 14px 10px;
+  display:flex;gap:2px;
+}
+.tab{
+  flex:1;padding:9px 4px;border-radius:9px;background:transparent;border:none;
+  color:var(--text-3);font-size:13px;font-weight:500;letter-spacing:.01em;
+  transition:.15s;position:relative;
+}
+.tab:hover{color:var(--text-2)}
+.tab.on{color:var(--text);background:var(--surface)}
+.tab.on::after{
+  content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);
+  width:24px;height:1.5px;background:var(--accent);border-radius:2px;
+}
+
+/* ---------- bottom nav (mobile) ---------- */
+.bottomnav{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(15,18,21,.94);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-top:1px solid var(--line);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+.bottomnav-in{display:flex;max-width:520px;margin:0 auto}
+.bn{
+  flex:1;background:transparent;border:none;padding:8px 4px 6px;
+  color:var(--text-3);font-size:10.5px;letter-spacing:.02em;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  transition:.15s;
+}
+.bn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bn.on{color:var(--accent)}
+@media(max-width:720px){
+  .tabs{display:none}
+  .bottomnav{display:block}
+  .top-in{padding:12px 16px}
+}
+
+/* ---------- shell ---------- */
+.wrap{max-width:880px;margin:0 auto;padding:20px}
+@media(max-width:720px){ .wrap{padding:16px} }
+.stack>*+*{margin-top:12px}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:18px;
+}
+.card.tight{padding:14px}
+.card.pad-lg{padding:22px}
+.card.flat{background:transparent}
+.card .hd{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:12px;
+}
+.card .hd h3{margin:0}
+.hint{color:var(--text-3);font-size:12.5px;line-height:1.55}
+.lead{color:var(--text-2);font-size:14px}
+
+/* ---------- rules / dividers ---------- */
+.rule{height:1px;background:var(--line);margin:14px 0;border:none}
+
+/* ---------- buttons ---------- */
+.btn{
+  font:inherit;font-size:13.5px;font-weight:500;letter-spacing:.01em;
+  padding:9px 14px;border-radius:9px;
+  background:var(--surface-2);color:var(--text);
+  border:1px solid var(--line-2);
+  transition:.15s;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  white-space:nowrap;
+}
+.btn:hover{background:var(--surface-3);border-color:var(--line-2)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#1a1408;font-weight:600}
+.btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.ghost{background:transparent;border-color:var(--line)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.danger{background:transparent;border-color:var(--danger-soft);color:var(--danger)}
+.btn.danger:hover{background:var(--danger-soft)}
+.btn.sm{padding:6px 11px;font-size:12.5px;border-radius:7px}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---------- inputs ---------- */
+.in,.ta,select.in{
+  width:100%;font:inherit;font-size:14px;color:var(--text);
+  background:var(--bg-2);border:1px solid var(--line-2);
+  border-radius:9px;padding:10px 12px;
+  outline:none;transition:.15s;
+}
+.in:focus,.ta:focus{border-color:var(--accent);background:var(--surface-2)}
+.ta{resize:vertical;min-height:82px;line-height:1.55;font-family:inherit}
+label.fl{display:block;font-size:11px;color:var(--text-3);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){ .grid2{grid-template-columns:1fr} }
+
+/* ---------- today ---------- */
+.hero{
+  padding:22px 22px 20px;
+  background:linear-gradient(180deg,var(--surface),var(--bg-2));
+}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.hero-date{color:var(--text-3);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.hero-big{display:flex;align-items:baseline;gap:10px}
+.hero-big b{font-family:var(--serif);font-size:46px;font-weight:500;letter-spacing:-.03em;line-height:1}
+.hero-big span{font-family:var(--serif);font-size:22px;color:var(--text-3)}
+.hero-big em{font-style:normal;color:var(--accent);font-size:13px;font-weight:600;letter-spacing:.02em;margin-left:auto;align-self:center}
+.hero-note{color:var(--text-2);font-size:13.5px;margin-top:8px}
+
+.chain{display:grid;grid-template-columns:repeat(28,1fr);gap:3px;margin-top:18px}
+.chip{aspect-ratio:1;border-radius:3px;background:var(--surface-3)}
+.chip.full{background:var(--accent)}
+.chip.part{background:rgba(201,169,97,.36)}
+.chip.off{background:var(--bg-2);border:1px solid var(--line)}
+.chain-cap{display:flex;justify-content:space-between;margin-top:7px;font-size:10.5px;color:var(--text-3);letter-spacing:.05em;text-transform:uppercase}
+
+/* ---------- next up ---------- */
+.nextup{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;border-radius:var(--r);
+  background:var(--surface);border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+}
+.nextup .lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.nextup .nm{font-family:var(--serif);font-size:16px;font-weight:600;margin-top:3px}
+.nextup .mt{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* ---------- habit card ---------- */
+.habit{
+  padding:16px 18px;border-radius:var(--r);
+  background:var(--surface);border:1px solid var(--line);
+  transition:.15s;
+  cursor:pointer;
+}
+.habit:hover{border-color:var(--line-2);background:var(--surface-2)}
+.habit .row{display:flex;align-items:flex-start;gap:14px}
+.check{
+  width:34px;height:34px;flex:0 0 auto;border-radius:50%;
+  border:1.5px solid var(--line-2);background:transparent;
+  color:transparent;display:grid;place-items:center;
+  transition:.15s;font-size:16px;font-weight:600;
+  margin-top:2px;
+}
+.check:hover{border-color:var(--accent)}
+.check.on{background:var(--accent);border-color:var(--accent);color:#1a1408}
+.habit .nm{font-family:var(--serif);font-size:15.5px;font-weight:600}
+.habit.done .nm{color:var(--text-3);text-decoration:line-through;text-decoration-color:var(--text-3)}
+.habit .meta{font-size:12px;color:var(--text-3);margin-top:2px;letter-spacing:.01em}
+.habit .meta b{color:var(--text-2);font-weight:500}
+
+.strip{display:flex;gap:4px;margin-top:12px}
+.sd{
+  width:22px;height:22px;border-radius:6px;font-size:10px;
+  display:grid;place-items:center;color:var(--text-3);
+  background:var(--surface-3);font-weight:500;
+}
+.sd.on{background:var(--accent);color:#1a1408;font-weight:700}
+.sd.miss{background:var(--danger-soft);color:var(--danger)}
+.sd.off{background:transparent;border:1px solid var(--line);color:var(--text-3)}
+
+.quote{
+  margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+  font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--text-2);line-height:1.55;
+}
+
+/* ---------- progress ---------- */
+.chart{display:flex;align-items:flex-end;gap:8px;height:132px;margin:8px 0 4px}
+.bcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.bar2{width:100%;border-radius:5px 5px 2px 2px;background:var(--surface-3);min-height:3px;transition:.3s}
+.bar2.g{background:var(--accent)}
+.bar2.m{background:rgba(201,169,97,.5)}
+.bar2.l{background:var(--danger-soft)}
+.blab{font-size:10px;color:var(--text-3);letter-spacing:.05em}
+
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{
+  background:var(--bg-2);border:1px solid var(--line);
+  border-radius:10px;padding:12px 10px;text-align:center;
+}
+.stat b{font-family:var(--serif);font-size:22px;font-weight:600;display:block;letter-spacing:-.02em}
+.stat span{font-size:10.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;display:block}
+
+.hbar{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden;margin-top:6px}
+.hbar>i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+
+.daylist{display:flex;flex-direction:column;gap:9px}
+.drow{display:flex;align-items:center;gap:12px;font-size:12.5px}
+.drow .dn{width:64px;color:var(--text-3);letter-spacing:.02em}
+.drow .db{flex:1;height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden}
+.drow .db>i{display:block;height:100%;background:var(--accent);border-radius:2px}
+.drow .dv{width:52px;text-align:right;color:var(--text-2);font-variant-numeric:tabular-nums}
+
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.badge{
+  text-align:center;padding:14px 8px;border-radius:12px;
+  background:var(--bg-2);border:1px solid var(--line);
+  opacity:.45;transition:.2s;
+}
+.badge.on{opacity:1;border-color:var(--accent-line);background:var(--accent-soft)}
+.badge b{font-family:var(--serif);font-size:22px;font-weight:600;display:block}
+.badge span{font-size:10.5px;color:var(--text-3);letter-spacing:.05em;text-transform:uppercase}
+
+/* ---------- discover / library ---------- */
+.searchwrap{position:relative;margin-bottom:14px}
+.searchwrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-3);pointer-events:none}
+.searchwrap .in{padding-left:36px}
+
+.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;-ms-overflow-style:none;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{
+  flex:0 0 auto;padding:6px 12px;border-radius:20px;
+  background:transparent;border:1px solid var(--line);
+  color:var(--text-3);font-size:12.5px;transition:.15s;white-space:nowrap;
+}
+.cat:hover{color:var(--text-2);border-color:var(--line-2)}
+.cat.on{background:var(--accent);border-color:var(--accent);color:#1a1408;font-weight:600}
+
+.lib-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:560px){ .lib-grid{grid-template-columns:1fr 1fr} }
+.lib-card{
+  text-align:left;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);padding:14px 16px;transition:.15s;color:inherit;
+  display:flex;flex-direction:column;gap:6px;
+}
+.lib-card:hover{border-color:var(--accent-line);background:var(--surface-2)}
+.lib-card .cn{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.lib-card .nn{font-family:var(--serif);font-size:15.5px;font-weight:600}
+.lib-card .qm{font-size:12px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.lib-card .tag{font-size:11px;color:var(--text-3);letter-spacing:.02em}
+
+/* ---------- detail page ---------- */
+.crumb{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;border:none;color:var(--text-3);
+  font-size:12.5px;letter-spacing:.02em;padding:0;margin-bottom:14px;
+}
+.crumb:hover{color:var(--text-2)}
+.crumb svg{width:14px;height:14px}
+
+.title-block h1{margin-bottom:6px}
+.title-block .sub{color:var(--text-3);font-size:12.5px;letter-spacing:.02em}
+
+.qbox{
+  padding:18px 20px;border-left:2px solid var(--accent);
+  background:var(--bg-2);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  font-family:var(--serif);font-style:italic;font-size:15px;color:var(--text-2);line-height:1.6;
+}
+
+.list{margin:0;padding:0;list-style:none}
+.list li{
+  padding:9px 0;font-size:13.5px;color:var(--text-2);
+  border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start;
+}
+.list li:last-child{border-bottom:none}
+.list li::before{
+  content:"";flex:0 0 auto;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);margin-top:9px;
+}
+
+.book{padding:14px 0;border-bottom:1px solid var(--line)}
+.book:last-child{border-bottom:none;padding-bottom:0}
+.book:first-child{padding-top:0}
+.book b{display:block;font-family:var(--serif);font-size:14.5px;font-weight:600;letter-spacing:-.005em}
+.book .au{font-size:11.5px;color:var(--text-3);letter-spacing:.02em;margin-top:2px;display:block}
+.book .sm{font-size:13px;color:var(--text-2);margin-top:6px;line-height:1.55}
+
+/* ---------- timer ---------- */
+.ringwrap{display:flex;flex-direction:column;align-items:center;padding:20px 0 8px}
+.ring{position:relative;width:236px;height:236px}
+.ring svg{transform:rotate(-90deg)}
+.ring .inr{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .inr b{
+  font-family:var(--serif);font-size:50px;font-weight:500;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;line-height:1;
+}
+.ring .inr span{display:block;font-size:12px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+
+/* ---------- day picker ---------- */
+.daypick{display:flex;gap:6px;margin-bottom:14px}
+.daypick label{
+  flex:1;text-align:center;padding:10px 0;border-radius:9px;
+  background:var(--bg-2);border:1px solid var(--line);
+  font-size:12px;color:var(--text-3);cursor:pointer;
+  letter-spacing:.04em;transition:.15s;
+}
+.daypick input{display:none}
+.daypick label:hover{color:var(--text-2)}
+.daypick label:has(input:checked){background:var(--accent);border-color:var(--accent);color:#1a1408;font-weight:600}
+
+/* ---------- misc ---------- */
+.pill{
+  display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;
+  background:var(--bg-2);border:1px solid var(--line);color:var(--text-3);
+  letter-spacing:.02em;margin:0 4px 4px 0;
+}
+.pill.on{border-color:var(--accent-line);color:var(--accent)}
+.empty{
+  text-align:center;padding:40px 20px;color:var(--text-3);
+  font-size:13.5px;line-height:1.7;
+}
+.empty .ic{width:44px;height:44px;margin:0 auto 14px;color:var(--text-3);opacity:.6}
+
+.toast{
+  position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);
+  z-index:100;pointer-events:none;opacity:0;transition:.25s;
+  max-width:calc(100vw - 32px);
+}
+@media(min-width:721px){ .toast{bottom:32px} }
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast .tt{
+  background:#1a1f25;border:1px solid var(--line-2);
+  border-radius:10px;padding:11px 16px;font-size:13px;
+  box-shadow:0 10px 32px rgba(0,0,0,.5);color:var(--text);
+}
+
+/* focus visibility */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Discipline Tracker
+   ============================================================ */
+
+/* ---------------- utilities ---------------- */
+const pad=n=>String(n).padStart(2,"0");
+const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const pk=k=>{const[a,b,c]=k.split("-").map(Number);return new Date(a,b-1,c)};
+const mid=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+const today=()=>mid(new Date());
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);x.setHours(0,0,0,0);return x};
+const uid=()=>Math.random().toString(36).slice(2,10);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const DL={0:"S",1:"M",2:"T",3:"W",4:"T",5:"F",6:"S"};
+const DORD=[1,2,3,4,5,6,0];
+const DFULL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const DSHORT=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmtDate=d=>`${DFULL[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`;
+const hash=s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h};
+
+/* ============================================================
+   HABIT LIBRARY — 55 practices across 9 categories
+   c  category | n  name | t  default time | d  default duration (min)
+   q  philosopher quote | b  [{t,a,s}] book summaries
+   ============================================================ */
+const LIB=[
+/* ---------- MORNING ---------- */
+{id:"wake-early",c:"Morning",n:"Wake up early",t:"06:00",d:5,
+ q:"It is well to be up before daybreak, for such habits contribute to health, wealth and wisdom. — Aristotle",
+ b:[{t:"The 5 AM Club",a:"Robin Sharma",s:"Pairs early rising with a 20/20/20 formula: movement, reflection and growth before the world wakes."},
+    {t:"The Miracle Morning",a:"Hal Elrod",s:"Six short practices — silence, affirmation, visualization, exercise, reading and writing — completed before your day begins."}]},
+{id:"make-bed",c:"Morning",n:"Make your bed",t:"06:10",d:3,
+ q:"Well begun is half done. — Aristotle",
+ b:[{t:"Make Your Bed",a:"Adm. William McRaven",s:"Small disciplines completed first thing each morning set the tone for everything that follows."},
+    {t:"Atomic Habits",a:"James Clear",s:"Tiny, consistent actions — especially a keystone habit — compound into remarkable change."}]},
+{id:"morning-stretch",c:"Morning",n:"Morning stretch",t:"06:20",d:10,
+ q:"It is a shame for a man to grow old without seeing the beauty and strength of which his body is capable. — Socrates",
+ b:[{t:"Becoming a Supple Leopard",a:"Kelly Starrett",s:"A practical mobility system for restoring and maintaining healthy movement."},
+    {t:"Stretching Anatomy",a:"Arnold Nelson",s:"Illustrated, step-by-step stretching routines for every major muscle group."}]},
+{id:"cold-shower",c:"Morning",n:"Cold shower",t:"06:30",d:5,
+ q:"Difficulties strengthen the mind, as labour does the body. — Seneca",
+ b:[{t:"What Doesn't Kill Us",a:"Scott Carney",s:"How controlled exposure to cold rewires the body's stress response."},
+    {t:"The Wim Hof Method",a:"Wim Hof",s:"Breathing and cold exposure as a route to resilience and energy."}]},
+{id:"no-phone-am",c:"Morning",n:"No phone for first hour",t:"06:00",d:60,
+ q:"The unexamined life is not worth living. — Socrates",
+ b:[{t:"Digital Minimalism",a:"Cal Newport",s:"A philosophy of technology use that puts your values before your apps."},
+    {t:"How to Break Up with Your Phone",a:"Catherine Price",s:"A 30-day plan to reset your relationship with the device in your pocket."}]},
+{id:"plan-day",c:"Morning",n:"Plan the day",t:"06:45",d:10,
+ q:"The general who wins the battle makes many calculations before the battle is fought. — Sun Tzu",
+ b:[{t:"Getting Things Done",a:"David Allen",s:"Capture, clarify and organise every commitment so your mind can rest."},
+    {t:"Eat That Frog",a:"Brian Tracy",s:"Identify and complete your most important task first — before the day pulls you away."}]},
+
+/* ---------- BODY ---------- */
+{id:"run",c:"Body",n:"Morning run",t:"06:30",d:25,
+ q:"Walking is man's best medicine. — Hippocrates",
+ b:[{t:"Born to Run",a:"Christopher McDougall",s:"A case that humans evolved to run long distances — and that running can be a joy, not a punishment."},
+    {t:"80/20 Running",a:"Matt Fitzgerald",s:"Most training should be easy; a little should be very hard. That is the recipe for lasting progress."}]},
+{id:"walk",c:"Body",n:"Walk 10,000 steps",t:"17:30",d:45,
+ q:"Walking is the best possible exercise. Habituate yourself to walk very far. — Thomas Jefferson",
+ b:[{t:"In Praise of Walking",a:"Shane O'Mara",s:"Neuroscience makes the case that walking sharpens thought, mood and memory."},
+    {t:"Walking",a:"Henry David Thoreau",s:"A short, lyrical essay on walking as a form of freedom and attention."}]},
+{id:"gym",c:"Body",n:"Gym workout",t:"18:00",d:60,
+ q:"The body achieves what the mind believes. — Napoleon Hill",
+ b:[{t:"Starting Strength",a:"Mark Rippetoe",s:"A no-nonsense guide to the basic barbell lifts that build real strength."},
+    {t:"Bigger Leaner Stronger",a:"Michael Matthews",s:"Evidence-based training and nutrition without the bro-science."}]},
+{id:"pushups",c:"Body",n:"Push-ups",t:"07:00",d:10,
+ q:"He who has a why to live can bear almost any how. — Friedrich Nietzsche",
+ b:[{t:"Convict Conditioning",a:"Paul Wade",s:"Progressive bodyweight strength using simple, timeless movements."},
+    {t:"You Are Your Own Gym",a:"Mark Lauren",s:"No equipment, no gym — a complete strength programme using only your body."}]},
+{id:"yoga",c:"Body",n:"Yoga",t:"07:00",d:20,
+ q:"Yoga is the journey of the self, through the self, to the self. — Bhagavad Gita",
+ b:[{t:"Light on Yoga",a:"B.K.S. Iyengar",s:"The classic modern reference for postures, breath and philosophy."},
+    {t:"The Heart of Yoga",a:"T.K.V. Desikachar",s:"A practical, gentle introduction to yoga as a personal practice, not a performance."}]},
+{id:"cycle",c:"Body",n:"Cycling",t:"07:00",d:45,
+ q:"The bicycle is the most civilised conveyance known to man. — Iris Murdoch",
+ b:[{t:"The Cyclist's Training Bible",a:"Joe Friel",s:"A structured, season-long plan for cyclists who want to train, not just ride."},
+    {t:"It's All About the Bike",a:"Robert Penn",s:"A love letter to the machine and the craft of building one properly."}]},
+{id:"swim",c:"Body",n:"Swimming",t:"07:00",d:40,
+ q:"The water is your friend. You don't have to fight with water. — Alexander Popov",
+ b:[{t:"Total Immersion",a:"Terry Laughlin",s:"Swimming as efficiency and glide, not force — for beginners and racers alike."},
+    {t:"Swim Smooth",a:"Paul Newsome & Adam Young",s:"Clear technique fixes for the most common stroke problems."}]},
+{id:"skip-rope",c:"Body",n:"Skipping rope",t:"07:00",d:10,
+ q:"To keep the body in good health is a duty. — Buddha",
+ b:[{t:"Jump Rope Training",a:"Buddy Lee",s:"A complete programme from the Olympian who popularised rope work."},
+    {t:"The 4-Hour Body",a:"Tim Ferriss",s:"A grab-bag of experiments in rapid physical change, including rope work."}]},
+{id:"core",c:"Body",n:"Core workout",t:"07:15",d:12,
+ q:"The groundwork of all happiness is health. — Leigh Hunt",
+ b:[{t:"Foundation",a:"Eric Goodman",s:"A back-strengthening programme that rebuilds the body from the core outward."},
+    {t:"The Core Program",a:"Peggy Brill",s:"Fifteen minutes a day to a stronger, pain-free centre of gravity."}]},
+{id:"plank",c:"Body",n:"Plank",t:"07:00",d:5,
+ q:"Strength does not come from physical capacity. It comes from an indomitable will. — Mahatma Gandhi",
+ b:[{t:"The Complete Book of Core Training",a:"Kurt Brungardt",s:"Progressive core routines for stability, posture and athletic power."},
+    {t:"Becoming a Supple Leopard",a:"Kelly Starrett",s:"Why the core is the anchor of every safe, powerful movement."}]},
+{id:"hiit",c:"Body",n:"HIIT workout",t:"18:30",d:20,
+ q:"It is a shame for a man to grow old without seeing the beauty and strength of which his body is capable. — Socrates",
+ b:[{t:"The One-Minute Workout",a:"Martin Gibala",s:"Short, intense intervals that rival long, slow sessions for fitness and health."},
+    {t:"The 4-Hour Body",a:"Tim Ferriss",s:"Experiments in minimum effective dose — training less and gaining more."}]},
+
+/* ---------- STUDY ---------- */
+{id:"read",c:"Study",n:"Read a book",t:"21:00",d:30,
+ q:"The reading of all good books is like a conversation with the finest minds of past centuries. — René Descartes",
+ b:[{t:"How to Read a Book",a:"Mortimer Adler",s:"Reading has levels: inspectional, analytical, syntopical. Most people never leave the first."},
+    {t:"The Shallows",a:"Nicholas Carr",s:"Deep attention is being rewired by the internet — and can be trained back."}]},
+{id:"study",c:"Study",n:"Study session",t:"19:00",d:50,
+ q:"Live as if you were to die tomorrow. Learn as if you were to live forever. — Mahatma Gandhi",
+ b:[{t:"Make It Stick",a:"Brown, Roediger & McDaniel",s:"Retrieval practice and spacing beat re-reading and highlighting."},
+    {t:"A Mind for Numbers",a:"Barbara Oakley",s:"Alternating focused and diffuse thinking lets almost anyone learn almost anything."}]},
+{id:"language",c:"Study",n:"Practice a language",t:"19:30",d:20,
+ q:"To have another language is to possess a second soul. — Charlemagne",
+ b:[{t:"Fluent Forever",a:"Gabriel Wyner",s:"Spaced repetition, pronunciation first, and a personal sentence bank."},
+    {t:"Fluent in 3 Months",a:"Benny Lewis",s:"Speak from day one — fluency is a habit, not a talent."}]},
+{id:"course",c:"Study",n:"Online course",t:"19:00",d:45,
+ q:"Education is the most powerful weapon which you can use to change the world. — Nelson Mandela",
+ b:[{t:"Ultralearning",a:"Scott Young",s:"Aggressive, self-directed learning projects that compress years into months."},
+    {t:"Learning How to Learn",a:"Oakley & Sejnowski",s:"Practical techniques grounded in how the brain actually encodes memory."}]},
+{id:"notes",c:"Study",n:"Review notes",t:"20:00",d:20,
+ q:"I hear and I forget. I see and I remember. I do and I understand. — Confucius",
+ b:[{t:"How to Take Smart Notes",a:"Sönke Ahrens",s:"A note-taking method that turns reading into writing and thinking."},
+    {t:"Building a Second Brain",a:"Tiago Forte",s:"Capture and organise knowledge so it becomes usable output, not just an archive."}]},
+{id:"math",c:"Study",n:"Practice math",t:"19:00",d:30,
+ q:"Mathematics is the music of reason. — James Joseph Sylvester",
+ b:[{t:"A Mind for Numbers",a:"Barbara Oakley",s:"Why maths feels hard — and the study habits that make it click."},
+    {t:"Thinking, Fast and Slow",a:"Daniel Kahneman",s:"The two systems of thought, and how to reason more carefully with numbers."}]},
+{id:"code",c:"Study",n:"Learn coding",t:"20:00",d:45,
+ q:"The computer was born to solve problems that did not exist before. — Bill Gates",
+ b:[{t:"The Pragmatic Programmer",a:"Hunt & Thomas",s:"Timeless habits of professional software craftsmanship."},
+    {t:"Clean Code",a:"Robert C. Martin",s:"Writing code that humans — including your future self — can read."}]},
+{id:"speed-read",c:"Study",n:"Speed reading practice",t:"20:30",d:15,
+ q:"Reading is to the mind what exercise is to the body. — Joseph Addison",
+ b:[{t:"Breakthrough Rapid Reading",a:"Peter Kump",s:"A self-paced course in reading faster with better comprehension."},
+    {t:"The Speed Reading Book",a:"Tony Buzan",s:"Techniques for pacing, chunking and retaining more of what you read."}]},
+
+/* ---------- MIND ---------- */
+{id:"meditate",c:"Mind",n:"Meditation",t:"07:30",d:10,
+ q:"The mind is everything. What you think you become. — Buddha",
+ b:[{t:"10% Happier",a:"Dan Harris",s:"A sceptic's route into meditation, minus the mystical packaging."},
+    {t:"The Power of Now",a:"Eckhart Tolle",s:"Suffering comes from living in past or future. Presence is the way out."}]},
+{id:"breathe",c:"Mind",n:"Deep breathing",t:"07:40",d:5,
+ q:"Breath is the bridge which connects life to consciousness. — Thich Nhat Hanh",
+ b:[{t:"Breath",a:"James Nestor",s:"How the way we breathe shapes sleep, focus and long-term health."},
+    {t:"The Oxygen Advantage",a:"Patrick McKeown",s:"Breathing less, not more, can raise performance and calm the nervous system."}]},
+{id:"gratitude",c:"Mind",n:"Gratitude practice",t:"21:30",d:5,
+ q:"Gratitude is not only the greatest of virtues, but the parent of all others. — Cicero",
+ b:[{t:"Thanks!",a:"Robert Emmons",s:"The leading researcher on gratitude explains how it reshapes mood and relationships."},
+    {t:"The Gratitude Diaries",a:"Janice Kaplan",s:"A year-long experiment in noticing what is already good."}]},
+{id:"journal",c:"Mind",n:"Journaling",t:"22:00",d:15,
+ q:"Writing is the geometry of the soul. — Plato",
+ b:[{t:"The Artist's Way",a:"Julia Cameron",s:"Morning pages — three longhand pages a day — clear the pipes and quiet the inner critic."},
+    {t:"Bird by Bird",a:"Anne Lamott",s:"Permission to write badly, and the discipline to keep going anyway."}]},
+{id:"reflect",c:"Mind",n:"Evening reflection",t:"21:45",d:10,
+ q:"We are what we repeatedly do. Excellence, then, is not an act, but a habit. — Will Durant",
+ b:[{t:"Meditations",a:"Marcus Aurelius",s:"A Roman emperor's private notes on self-examination and self-command."},
+    {t:"Atomic Habits",a:"James Clear",s:"The four laws of behaviour change, applied to the person you want to become."}]},
+{id:"philosophy",c:"Mind",n:"Read philosophy",t:"20:30",d:25,
+ q:"Philosophy begins in wonder. — Plato",
+ b:[{t:"The Republic",a:"Plato",s:"Justice, the good life and the structure of the soul, in dialogue form."},
+    {t:"Meditations",a:"Marcus Aurelius",s:"Stoic practice notes on duty, mortality and the discipline of attention."}]},
+{id:"silence",c:"Mind",n:"Silent sitting",t:"06:50",d:10,
+ q:"Silence is a source of great strength. — Lao Tzu",
+ b:[{t:"Silence",a:"Erling Kagge",s:"An explorer's short, sharp case for silence as a scarce modern resource."},
+    {t:"Stillness Is the Key",a:"Ryan Holiday",s:"Why the greatest thinkers and leaders built quiet into the middle of busy lives."}]},
+{id:"pray",c:"Mind",n:"Prayer",t:"06:40",d:10,
+ q:"Pray as though everything depended on God. Work as though everything depended on you. — Augustine",
+ b:[{t:"The Practice of the Presence of God",a:"Brother Lawrence",s:"A 17th-century monk on turning ordinary work into continual prayer."},
+    {t:"The Interior Castle",a:"Teresa of Ávila",s:"A classic map of the inner life, written by a woman who knew it well."}]},
+
+/* ---------- WORK ---------- */
+{id:"deep-work",c:"Work",n:"Deep work session",t:"09:00",d:90,
+ q:"Concentrate all your thoughts upon the work in hand. — Alexander Graham Bell",
+ b:[{t:"Deep Work",a:"Cal Newport",s:"Focused, undistracted work is increasingly rare — and increasingly valuable."},
+    {t:"Flow",a:"Mihaly Csikszentmihalyi",s:"The psychology of optimal experience, and how to design work that produces it."}]},
+{id:"no-social",c:"Work",n:"No social media",t:"09:00",d:480,
+ q:"Distraction is the only thing that consoles us for our miseries, and yet it is itself the greatest of our miseries. — Blaise Pascal",
+ b:[{t:"Digital Minimalism",a:"Cal Newport",s:"A deliberate philosophy of technology, not just a diet of apps."},
+    {t:"Ten Arguments for Deleting Your Social Media Accounts",a:"Jaron Lanier",s:"A founding father of the web on why the current model harms its users."}]},
+{id:"inbox-zero",c:"Work",n:"Inbox zero",t:"17:30",d:20,
+ q:"He who does not know how to say no does not know how to live. — Confucius",
+ b:[{t:"Getting Things Done",a:"David Allen",s:"Empty the inbox into a trusted system — then act from clarity, not anxiety."},
+    {t:"Four Thousand Weeks",a:"Oliver Burkeman",s:"Time management is a trap; decide what actually matters and let the rest go."}]},
+{id:"plan-tomorrow",c:"Work",n:"Plan tomorrow",t:"22:00",d:5,
+ q:"A goal without a plan is just a wish. — Antoine de Saint-Exupéry",
+ b:[{t:"Eat That Frog",a:"Brian Tracy",s:"Decide tonight what tomorrow's most important task will be."},
+    {t:"The One Thing",a:"Gary Keller",s:"Find the lead domino — one action that makes everything else easier."}]},
+{id:"pomodoro",c:"Work",n:"Pomodoro session",t:"10:00",d:25,
+ q:"It is not enough to be busy. So are the ants. The question is: What are we busy about? — Henry David Thoreau",
+ b:[{t:"The Pomodoro Technique",a:"Francesco Cirillo",s:"Work in short, protected intervals with real breaks — the original focus hack."},
+    {t:"Deep Work",a:"Cal Newport",s:"Why long, unbroken blocks build skills that fragmented work never will."}]},
+
+/* ---------- CREATIVE ---------- */
+{id:"instrument",c:"Creative",n:"Practice instrument",t:"18:30",d:30,
+ q:"Music is a moral law. It gives soul to the universe. — Plato",
+ b:[{t:"The Practice of Practice",a:"Jonathan Harnum",s:"Deliberate, focused practice that turns effort into real improvement."},
+    {t:"Effortless Mastery",a:"Kenny Werner",s:"A jazz pianist on freeing technique from fear and self-judgement."}]},
+{id:"draw",c:"Creative",n:"Draw or sketch",t:"20:00",d:30,
+ q:"Art enables us to find ourselves and lose ourselves at the same time. — Thomas Merton",
+ b:[{t:"Drawing on the Right Side of the Brain",a:"Betty Edwards",s:"A classic that teaches anyone to see — which is really what drawing is."},
+    {t:"The Artist's Way",a:"Julia Cameron",s:"A twelve-week programme for recovering the creativity most adults abandon."}]},
+{id:"write",c:"Creative",n:"Write 500 words",t:"08:30",d:45,
+ q:"We write to taste life twice. — Anaïs Nin",
+ b:[{t:"On Writing",a:"Stephen King",s:"A memoir and a toolbox: read a lot, write a lot, cut ten percent."},
+    {t:"Bird by Bird",a:"Anne Lamott",s:"Shitty first drafts are not optional. Perfectionism is the enemy of finished work."}]},
+{id:"photo",c:"Creative",n:"Photography walk",t:"17:00",d:45,
+ q:"You don't take a photograph, you make it. — Ansel Adams",
+ b:[{t:"On Photography",a:"Susan Sontag",s:"A philosophical look at what photographs do to memory, truth and desire."},
+    {t:"The Photographer's Eye",a:"Michael Freeman",s:"How composition, light and moment decide whether a photograph works."}]},
+{id:"cook",c:"Creative",n:"Cook a meal",t:"18:00",d:60,
+ q:"Tell me what you eat, and I will tell you who you are. — Brillat-Savarin",
+ b:[{t:"Salt Fat Acid Heat",a:"Samin Nosrat",s:"Four elements that, once understood, make cooking intuitive rather than recipe-bound."},
+    {t:"The Food Lab",a:"J. Kenji López-Alt",s:"The science behind why recipes work, and how to make them work better."}]},
+
+/* ---------- HEALTH ---------- */
+{id:"water",c:"Health",n:"Drink water",t:"09:00",d:5,
+ q:"Water is the driving force of all nature. — Leonardo da Vinci",
+ b:[{t:"Your Body's Many Cries for Water",a:"F. Batmanghelidj",s:"A controversial but influential argument that chronic dehydration underlies many everyday complaints."},
+    {t:"Quench",a:"Dana Cohen",s:"Hydration as the foundation of cellular energy, with practical daily targets."}]},
+{id:"veg",c:"Health",n:"Eat vegetables",t:"12:30",d:20,
+ q:"Let food be thy medicine and medicine be thy food. — Hippocrates",
+ b:[{t:"How Not to Die",a:"Michael Greger",s:"A large-scale look at the foods that most reliably extend healthy life."},
+    {t:"The Omnivore's Dilemma",a:"Michael Pollan",s:"Eat real food, mostly plants, not too much."}]},
+{id:"no-sugar",c:"Health",n:"No added sugar",t:"09:00",d:5,
+ q:"The body is a temple, but only if you treat it as one. — Astrid Alauda",
+ b:[{t:"The Case Against Sugar",a:"Gary Taubes",s:"A history and an argument about sugar's role in metabolic disease."},
+    {t:"Glucose Revolution",a:"Jessie Inchauspé",s:"Simple food-ordering and timing tricks that flatten blood-sugar spikes."}]},
+{id:"vitamins",c:"Health",n:"Take vitamins",t:"08:00",d:3,
+ q:"Health is the greatest gift, contentment the greatest wealth. — Buddha",
+ b:[{t:"The Vitamin D Solution",a:"Michael Holick",s:"Why a single vitamin may matter more than most people realise."},
+    {t:"Real Food",a:"Nina Planck",s:"A case for traditional, whole foods over engineered substitutes."}]},
+{id:"sleep-early",c:"Health",n:"Sleep early",t:"22:30",d:30,
+ q:"Sleep is the best meditation. — Dalai Lama",
+ b:[{t:"Why We Sleep",a:"Matthew Walker",s:"Sleep is the single most effective thing you can do to reset the brain and body."},
+    {t:"The Sleep Revolution",a:"Arianna Huffington",s:"A cultural argument for taking rest seriously again."}]},
+{id:"skincare",c:"Health",n:"Skincare routine",t:"22:15",d:10,
+ q:"The face is the mirror of the mind. — St. Jerome",
+ b:[{t:"The Skincare Bible",a:"Anjali Mahto",s:"A dermatologist's evidence-based routine, without the marketing noise."},
+    {t:"Cosmetic Dermatology",a:"Leslie Baumann",s:"The science of skin types and what actually changes them."}]},
+{id:"no-alcohol",c:"Health",n:"No alcohol",t:"18:00",d:5,
+ q:"The road of excess leads to the palace of wisdom. — William Blake",
+ b:[{t:"This Naked Mind",a:"Annie Grace",s:"Reframes alcohol so the desire fades, rather than relying on willpower alone."},
+    {t:"Alcohol Explained",a:"William Porter",s:"The physiology of drinking, told plainly enough to change behaviour."}]},
+
+/* ---------- MONEY ---------- */
+{id:"track-exp",c:"Money",n:"Track expenses",t:"21:00",d:10,
+ q:"Beware of little expenses; a small leak will sink a great ship. — Benjamin Franklin",
+ b:[{t:"The Psychology of Money",a:"Morgan Housel",s:"Doing well with money is mostly about behaviour, not spreadsheets."},
+    {t:"Your Money or Your Life",a:"Vicki Robin",s:"Money is life energy. Convert prices into hours of your life and spending changes on its own."}]},
+{id:"budget",c:"Money",n:"Review budget",t:"20:00",d:15,
+ q:"It's not your salary that makes you rich, it's your spending habits. — Charles A. Jaffe",
+ b:[{t:"The Total Money Makeover",a:"Dave Ramsey",s:"A step-by-step plan to escape debt and build a margin."},
+    {t:"I Will Teach You to Be Rich",a:"Ramit Sethi",s:"A practical, guilt-free system for automating money decisions."}]},
+{id:"save",c:"Money",n:"Save money",t:"09:00",d:5,
+ q:"Do not save what is left after spending; spend what is left after saving. — Warren Buffett",
+ b:[{t:"The Millionaire Next Door",a:"Stanley & Danko",s:"Wealth is built by boring, consistent saving — not income or appearances."},
+    {t:"The Simple Path to Wealth",a:"JL Collins",s:"A straightforward case for low-cost index investing and long patience."}]},
+
+/* ---------- SOCIAL ---------- */
+{id:"call",c:"Social",n:"Call a friend",t:"19:30",d:15,
+ q:"Friendship is a single soul dwelling in two bodies. — Aristotle",
+ b:[{t:"How to Win Friends and Influence People",a:"Dale Carnegie",s:"The enduring basics of listening, appreciating and being genuinely interested."},
+    {t:"Together",a:"Vivek Murthy",s:"A surgeon general on loneliness as a public-health issue — and connection as medicine."}]},
+{id:"kind",c:"Social",n:"Random act of kindness",t:"12:00",d:5,
+ q:"No act of kindness, no matter how small, is ever wasted. — Aesop",
+ b:[{t:"The Art of Happiness",a:"Dalai Lama & Howard Cutler",s:"A dialogue between a spiritual leader and a psychiatrist on living well."},
+    {t:"The Book of Joy",a:"Dalai Lama & Desmond Tutu",s:"Two friends, one week, and a conversation about lasting joy in a broken world."}]}
+];
+
+/* category-level benefits and how-to tips */
+const CAT_INFO={
+ Morning:{helps:["Start the day on your own terms","Compound small wins before the world asks anything of you","Lower decision fatigue for the rest of the day"],
+   tips:["Anchor to a fixed wake time, seven days a week","Prepare the night before — clothes, water, notebook","Protect the first hour from news and messages"]},
+ Body:{helps:["Cardiovascular and metabolic health","Mood and anxiety regulation","Better sleep and daily energy","Bone density and long-term independence"],
+   tips:["Start smaller than you think you should","Have a minimum version for bad days — ten minutes counts","Schedule it like a meeting, same time same days","Track it: visible progress is repeatable progress"]},
+ Study:{helps:["Retention that outlasts the exam","Faster pattern recognition","Confidence with unfamiliar problems","Compounding expertise"],
+   tips:["Work in 25–50 minute blocks with real breaks","Test yourself instead of re-reading","Space sessions across days, not hours","Teach the idea out loud to find the gaps"]},
+ Mind:{helps:["Less reactivity, more choice","Reduced anxiety and rumination","Sharper attention","Easier sleep"],
+   tips:["Anchor to an existing habit — right after brushing teeth","Two minutes daily beats an hour once a week","When you notice you have drifted, that noticing is the practice","Same seat, same time"]},
+ Work:{helps:["Focus that produces real output","A sense of completion at the end of the day","Protection from other people's priorities"],
+   tips:["Decide tonight what tomorrow's most important task is","Close every messaging app during deep work","Track sessions, not hours","Stop while you still have something left"]},
+ Creative:{helps:["Clearer thinking","A record you can learn from","Improved communication","Sustained satisfaction"],
+   tips:["Produce badly on purpose in the first pass","Set a target (words, minutes, pages), not a feeling","Keep a fixed slot — same time each day","Never edit while creating"]},
+ Health:{helps:["Energy and concentration","Kidney, joint and skin health","Appetite regulation","Long-term disease prevention"],
+   tips:["Make the healthy option the visible one","Pair it with an existing meal or routine","Small and consistent beats large and occasional","Prepare the environment, not just the intention"]},
+ Money:{helps:["Less financial stress","Freedom to say no","Compounding over decades","Awareness of where money actually goes"],
+   tips:["Track for a month before you budget","Automate savings on payday","Wait 24 hours before any non-essential purchase","Review subscriptions quarterly"]},
+ Social:{helps:["Belonging and perspective","A buffer against stress","Deeper trust over time","A life that is about more than output"],
+   tips:["Reach out first — the other person is usually glad you did","Ask a real question, not a status update","Small and regular beats rare and elaborate","Remember what they said last time"]}
+};
+
+/* type detection for user-created habits */
+const TYPE_HINTS=[
+ ["Sleep",["sleep","bed","wake","rest","nap","night"]],
+ ["Exercise",["run","gym","workout","walk","stretch","yoga","swim","cycl","bike","lift","cardio","push","squat","plank","hiit"]],
+ ["Reading",["read","book","novel","article"]],
+ ["Water",["water","hydrate","drink"]],
+ ["Money",["money","budget","save","saving","finance","expense","invest","spend"]],
+ ["Writing",["write","writing","blog","diary","journal","essay","draft","gratitude"]],
+ ["Meditation",["medit","mindful","breath","pray","silent","calm"]],
+ ["Study",["study","learn","course","exam","homework","class","lecture","revision","language","math","code"]],
+ ["Skills",["practice","practise","skill","guitar","piano","draw","art","chess","photo","cook"]]
+];
+function detectCat(name){
+  const n=(name||"").toLowerCase();
+  for(const[cat,words]of TYPE_HINTS){ if(words.some(w=>n.includes(w))) return cat; }
+  return "General";
+}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY="discipline-tracker-v2";
+let state=load();
+
+function seed(){
+  const t=today();
+  const created=dk(addD(t,-34));
+  const habits=[
+    {id:uid(),name:"Read a book",time:"21:00",duration:30,days:[0,1,2,3,4,5,6],cat:"Reading",created},
+    {id:uid(),name:"Morning run",time:"06:30",duration:25,days:[1,3,5],cat:"Exercise",created},
+    {id:uid(),name:"Meditation",time:"07:30",duration:10,days:[0,1,2,3,4,5,6],cat:"Meditation",created}
+  ];
+  const log={};
+  for(let i=34;i>=0;i--){
+    const d=addD(t,-i),k=dk(d);
+    const p=i<4?.92:.74;
+    habits.forEach(h=>{
+      if(h.days.includes(d.getDay())&&Math.random()<p){
+        log[k]=log[k]||{}; log[k][h.id]=true;
+      }
+    });
+  }
+  return {habits,log,reflections:{},settings:{notifications:false,ai:"deepseek"},reminded:{},timer:null};
+}
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){
+      const s=JSON.parse(raw);
+      s.habits=s.habits||[];
+      s.log=s.log||{};
+      s.reflections=s.reflections||{};
+      s.settings=Object.assign({notifications:false,ai:"deepseek"},s.settings||{});
+      s.reminded=s.reminded||{};
+      s.timer=s.timer||null;
+      return s;
+    }
+  }catch(e){console.warn(e)}
+  const s=seed();
+  try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}
+  return s;
+}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} }
+
+/* ============================================================
+   LOGIC
+   ============================================================ */
+const schedOn=(h,d)=>h.days.includes(d.getDay())&&dk(d)>=h.created;
+const isDone=(id,k)=>!!(state.log[k]&&state.log[k][id]);
+
+function mark(id,k,val=true){
+  state.log[k]=state.log[k]||{};
+  if(val)state.log[k][id]=true; else delete state.log[k][id];
+  if(!Object.keys(state.log[k]).length)delete state.log[k];
+  save();
+}
+function habitsOn(k){
+  const d=pk(k);
+  return state.habits.filter(h=>schedOn(h,d)).sort((a,b)=>a.time.localeCompare(b.time));
+}
+function dayStats(k){
+  const hs=habitsOn(k);
+  const done=hs.filter(h=>isDone(h.id,k)).length;
+  return {total:hs.length,done,pct:hs.length?Math.round(done/hs.length*100):0};
+}
+function curStreak(h){
+  const t=today(); let c=0,d=new Date(t),g=0;
+  while(g++<4000){
+    if(dk(d)<h.created)break;
+    if(schedOn(h,d)){
+      if(isDone(h.id,dk(d)))c++;
+      else if(dk(d)!==dk(t))break;
+    }
+    d=addD(d,-1);
+  }
+  return c;
+}
+function bestStreak(h){
+  let best=0,cur=0,d=pk(h.created),t=today(),g=0;
+  while(d<=t&&g++<4000){
+    if(schedOn(h,d)){
+      if(isDone(h.id,dk(d))){cur++;if(cur>best)best=cur}
+      else if(dk(d)!==dk(t))cur=0;
+    }
+    d=addD(d,1);
+  }
+  return best;
+}
+function rate(h,days){
+  const t=today(); let s=0,d=0;
+  for(let i=0;i<days;i++){
+    const x=addD(t,-i);
+    if(schedOn(h,x)){s++;if(isDone(h.id,dk(x)))d++}
+  }
+  return {sched:s,done:d,pct:s?Math.round(d/s*100):0};
+}
+function xpTotal(){
+  let n=0; for(const k in state.log) for(const id in state.log[k]) if(state.log[k][id])n++;
+  return n;
+}
+const lvl=()=>{const x=xpTotal();return{xp:x,level:Math.floor(x/100)+1,into:x%100}};
+
+/* pick a quote for a habit on a given day */
+function quoteFor(h,k){
+  // user habits derived from library: use library quote
+  const lib=LIB.find(x=>x.n.toLowerCase()===h.name.toLowerCase());
+  if(lib) return lib.q;
+  const arr=[
+    "We are what we repeatedly do. Excellence, then, is not an act, but a habit. — Will Durant",
+    "Discipline equals freedom. — Jocko Willink",
+    "You do not rise to the level of your goals. You fall to the level of your systems. — James Clear",
+    "The secret of getting ahead is getting started. — Mark Twain",
+    "A year from now you may wish you had started today. — Karen Lamb",
+    "Success is the sum of small efforts repeated day in and day out. — Robert Collier",
+    "Well begun is half done. — Aristotle",
+    "It is not that we have a short time to live, but that we waste much of it. — Seneca"
+  ];
+  return arr[hash(k+h.id)%arr.length];
+}
+
+/* ============================================================
+   ROUTING
+   ============================================================ */
+let route={name:"today"};
+const go=r=>{route=r;render();window.scrollTo(0,0)};
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  document.getElementById("app").innerHTML=header()+"<main class='wrap'>"+page()+"</main>"+bottomNav();
+  post();
+}
+function header(){
+  const {level,into}=lvl();
+  const tabs=[["today","Today"],["habits","Habits"],["discover","Discover"],["progress","Progress"]];
+  const active=route.name==="habit"?"habits":route.name==="timer"?"today":route.name;
+  return `
+  <header class="top">
+    <div class="top-in">
+      <div class="brand">
+        <span class="mark">D</span>
+        <span class="name">Discipline<em>.</em></span>
+      </div>
+      <div class="lvl">
+        <b>Level ${level} · ${into}/100 XP</b>
+        <div class="bar"><i style="width:${into}%"></i></div>
+      </div>
+      <button class="gear" data-act="tab" data-tab="settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+    <nav class="tabs">
+      ${tabs.map(([id,l])=>`<button class="tab ${active===id?"on":""}" data-act="tab" data-tab="${id}">${l}</button>`).join("")}
+    </nav>
+  </header>`;
+}
+function bottomNav(){
+  const items=[
+    ["today","Today",'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>'],
+    ["habits","Habits",'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'],
+    ["discover","Discover",'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>'],
+    ["progress","Progress",'<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>']
+  ];
+  const active=route.name==="habit"?"habits":route.name==="timer"?"today":route.name;
+  return `<nav class="bottomnav"><div class="bottomnav-in">${items.map(([id,l,p])=>
+    `<button class="bn ${active===id?"on":""}" data-act="tab" data-tab="${id}">
+      <svg viewBox="0 0 24 24">${p}</svg><span>${l}</span>
+    </button>`).join("")}</div></nav>`;
+}
+
+function page(){
+  switch(route.name){
+    case "today":    return vToday();
+    case "habits":   return vHabits();
+    case "discover": return vDiscover();
+    case "habit":    return vHabit(route.id);
+    case "lib":      return vLibDetail(route.id);
+    case "timer":    return vTimer();
+    case "progress": return vProgress();
+    case "settings": return vSettings();
+    default:         return vToday();
+  }
+}
+
+/* ================= TODAY ================= */
+function vToday(){
+  const t=today(),tk=dk(t);
+  const s=dayStats(tk);
+  const hs=habitsOn(tk);
+  let chain="";
+  for(let i=27;i>=0;i--){
+    const d=addD(t,-i),k=dk(d),ds=dayStats(k);
+    const cls=ds.total===0?"chip off":(ds.done===ds.total?"chip full":(ds.done>0?"chip part":"chip"));
+    chain+=`<div class="${cls}" title="${k} — ${ds.done}/${ds.total}"></div>`;
+  }
+  const pending=hs.filter(h=>!isDone(h.id,tk));
+  const next=pending[0];
+  const refl=state.reflections[tk]||"";
+
+  return `
+  <div class="stack">
+    <section class="card hero">
+      <div class="hero-top">
+        <div class="hero-date">${fmtDate(t)}</div>
+        <div class="hero-big" style="align-items:center">
+          <em>${s.pct}%</em>
+        </div>
+      </div>
+      <div class="hero-big">
+        <b>${s.done}</b><span>/ ${s.total}</span>
+      </div>
+      <div class="hero-note">
+        ${s.total===0
+          ? "Nothing scheduled today."
+          : s.done===s.total
+            ? "Every habit done today. The chain holds."
+            : `${s.total-s.done} habit${s.total-s.done===1?"":"s"} remaining.`}
+      </div>
+      <div class="chain">${chain}</div>
+      <div class="chain-cap"><span>28 days ago</span><span>Today</span></div>
+    </section>
+
+    ${hs.length===0?"":next?`
+      <div class="nextup">
+        <div style="flex:1">
+          <div class="lbl">Next up</div>
+          <div class="nm">${esc(next.name)}</div>
+          <div class="mt">${next.time} · ${next.duration} min</div>
+        </div>
+        <button class="btn primary sm" data-act="timer" data-id="${next.id}">Start</button>
+      </div>`:`
+      <div class="nextup">
+        <div style="flex:1">
+          <div class="lbl">All clear</div>
+          <div class="nm">Every habit done today.</div>
+        </div>
+      </div>`}
+
+    ${hs.length===0?
+      `<div class="card empty">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        No habits scheduled today.<br>
+        <button class="btn primary sm" style="margin-top:14px" data-act="tab" data-tab="discover">Browse the library</button>
+      </div>`
+      : hs.map(h=>habitCard(h,tk)).join("")}
+
+    <section class="card">
+      <div class="hd"><h3>Reflection</h3><span class="hint">Autosaved</span></div>
+      <textarea class="ta" id="refl" placeholder="What went well? What got in the way?">${esc(refl)}</textarea>
+    </section>
+  </div>`;
+}
+function habitCard(h,tk){
+  const done=isDone(h.id,tk);
+  const st=curStreak(h);
+  const t=today();
+  let strip="";
+  for(let i=6;i>=0;i--){
+    const d=addD(t,-i),k=dk(d);
+    const sch=schedOn(h,d),dn=isDone(h.id,k);
+    strip+=`<span class="sd ${!sch?"off":dn?"on":"miss"}" title="${k}">${DL[d.getDay()]}</span>`;
+  }
+  return `
+  <article class="habit ${done?"done":""}" data-act="habit" data-id="${h.id}">
+    <div class="row">
+      <button class="check ${done?"on":""}" data-act="toggle" data-id="${h.id}" aria-label="Toggle done">✓</button>
+      <div style="flex:1;min-width:0">
+        <div class="nm">${esc(h.name)}</div>
+        <div class="meta">${h.time} · ${h.duration} min${st>0?` · <b>${st} day${st===1?"":"s"}</b> streak`:""}</div>
+        <div class="strip">${strip}</div>
+        <div class="quote">"${esc(quoteFor(h,tk))}"</div>
+      </div>
+      <button class="btn ghost sm" data-act="timer" data-id="${h.id}" aria-label="Start timer">▶</button>
+    </div>
+  </article>`;
+}
+
+/* ================= HABITS ================= */
+function vHabits(){
+  const list=[...state.habits].sort((a,b)=>a.time.localeCompare(b.time));
+  return `
+  <div class="stack">
+    <div>
+      <h1 style="margin:0 0 4px">Your habits</h1>
+      <div class="hint">${list.length} active ${list.length===1?"habit":"habits"} · data stays on this device</div>
+    </div>
+
+    ${list.length===0
+      ? `<div class="card empty">You have no habits yet.<br><button class="btn primary sm" style="margin-top:14px" data-act="tab" data-tab="discover">Browse the library</button></div>`
+      : list.map(h=>`
+        <article class="card tight">
+          <div class="hd" style="margin-bottom:0">
+            <div style="min-width:0;flex:1">
+              <div style="font-family:var(--serif);font-weight:600;font-size:15.5px">${esc(h.name)}</div>
+              <div class="hint" style="margin-top:3px">${h.time} · ${h.duration} min · ${h.cat||"General"}</div>
+              <div style="margin-top:8px">
+                ${DORD.map(d=>`<span class="pill ${h.days.includes(d)?"on":""}">${DSHORT[d].slice(0,2)}</span>`).join("")}
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex:0 0 auto">
+              <button class="btn ghost sm" data-act="habit" data-id="${h.id}">Open</button>
+              <button class="btn danger sm" data-act="del" data-id="${h.id}">Delete</button>
+            </div>
+          </div>
+        </article>`).join("")}
+
+    <section class="card">
+      <h3>Add a habit</h3>
+      <p class="hint" style="margin-bottom:16px">Create your own, or <button class="btn ghost sm" data-act="tab" data-tab="discover" style="padding:2px 8px;font-size:12px">browse the library</button>.</p>
+      <div class="field"><label class="fl">Name</label><input class="in" id="nh-n" placeholder="e.g. Morning run" autocomplete="off"></div>
+      <div class="grid2">
+        <div class="field"><label class="fl">Reminder time</label><input class="in" id="nh-t" type="time" value="07:00"></div>
+        <div class="field"><label class="fl">Duration (minutes)</label><input class="in" id="nh-d" type="number" min="1" max="600" value="20"></div>
+      </div>
+      <div class="field">
+        <label class="fl">Category</label>
+        <select class="in" id="nh-c">
+          <option value="auto">Detect from name</option>
+          ${Object.keys(CAT_INFO).map(k=>`<option>${k}</option>`).join("")}
+          <option>General</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="fl">Days</label>
+        <div class="daypick" id="nh-days">
+          ${DORD.map((d,i)=>`<label><input type="checkbox" value="${d}" ${i<5?"checked":""}><span>${DSHORT[d].slice(0,2)}</span></label>`).join("")}
+        </div>
+      </div>
+      <button class="btn primary block" data-act="addHabit">Add habit</button>
+    </section>
+  </div>`;
+}
+function addHabit(){
+  const name=(document.getElementById("nh-n").value||"").trim();
+  const time=document.getElementById("nh-t").value||"07:00";
+  const duration=parseInt(document.getElementById("nh-d").value,10);
+  const cat=document.getElementById("nh-c").value;
+  const days=[...document.querySelectorAll("#nh-days input:checked")].map(i=>parseInt(i.value,10));
+  if(!name)return toast("Give the habit a name");
+  if(!duration||duration<1)return toast("Duration is required");
+  if(days.length===0)return toast("Pick at least one day");
+  state.habits.push({id:uid(),name,time,duration,days,cat:cat==="auto"?detectCat(name):cat,created:dk(today())});
+  save();toast("Habit added");render();
+}
+
+/* ================= DISCOVER / LIBRARY ================= */
+let libQuery="",libCat="All";
+
+function vDiscover(){
+  const cats=["All",...Object.keys(CAT_INFO)];
+  const q=libQuery.trim().toLowerCase();
+  const items=LIB.filter(x=>{
+    if(libCat!=="All"&&x.c!==libCat)return false;
+    if(!q)return true;
+    return x.n.toLowerCase().includes(q)||x.c.toLowerCase().includes(q)||x.q.toLowerCase().includes(q);
+  });
+  return `
+  <div class="stack">
+    <div>
+      <h1 style="margin:0 0 4px">Discover</h1>
+      <div class="hint">${LIB.length} curated practices with quotes and book summaries. Tap any to add it to your day.</div>
+    </div>
+
+    <div class="searchwrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="in" id="lib-q" placeholder="Search habits, categories or quotes" value="${esc(libQuery)}" autocomplete="off">
+    </div>
+
+    <div class="cats">
+      ${cats.map(c=>`<button class="cat ${libCat===c?"on":""}" data-act="libCat" data-cat="${c}">${c}</button>`).join("")}
+    </div>
+
+    ${items.length===0
+      ? `<div class="card empty">No habits match "${esc(libQuery)}".</div>`
+      : `<div class="lib-grid">${items.map(x=>`
+          <button class="lib-card" data-act="libOpen" data-id="${x.id}">
+            <span class="cn">${x.c}</span>
+            <span class="nn">${esc(x.n)}</span>
+            <span class="qm">${esc(x.q)}</span>
+            <span class="tag">${x.t} · ${x.d} min</span>
+          </button>`).join("")}</div>`}
+  </div>`;
+}
+
+function vLibDetail(id){
+  const x=LIB.find(y=>y.id===id);
+  if(!x){go({name:"discover"});return""}
+  const info=CAT_INFO[x.c]||CAT_INFO.Morning;
+  const already=state.habits.some(h=>h.name.toLowerCase()===x.n.toLowerCase());
+  return `
+  <div class="stack">
+    <button class="crumb" data-act="tab" data-tab="discover">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+      Discover
+    </button>
+
+    <div class="title-block">
+      <h1>${esc(x.n)}</h1>
+      <div class="sub">${x.c} · suggested ${x.t} · ${x.d} min</div>
+    </div>
+
+    <div class="qbox">"${esc(x.q)}"</div>
+
+    <section class="card">
+      <h3>What it helps</h3>
+      <ul class="list">${info.helps.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>
+    </section>
+
+    <section class="card">
+      <h3>How to do it better</h3>
+      <ul class="list">${info.tips.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>
+    </section>
+
+    <section class="card">
+      <h3>Book summaries</h3>
+      ${x.b.map(bk=>`
+        <div class="book">
+          <b>${esc(bk.t)}</b>
+          <span class="au">${esc(bk.a)}</span>
+          <div class="sm">${esc(bk.s)}</div>
+        </div>`).join("")}
+    </section>
+
+    <section class="card">
+      <h3>Add to your day</h3>
+      <div class="grid2">
+        <div class="field"><label class="fl">Time</label><input class="in" id="lib-t" type="time" value="${x.t}"></div>
+        <div class="field"><label class="fl">Duration</label><input class="in" id="lib-d" type="number" min="1" max="600" value="${x.d}"></div>
+      </div>
+      <div class="field">
+        <label class="fl">Days</label>
+        <div class="daypick" id="lib-days">
+          ${DORD.map((d,i)=>`<label><input type="checkbox" value="${d}" ${i<5?"checked":""}><span>${DSHORT[d].slice(0,2)}</span></label>`).join("")}
+        </div>
+      </div>
+      <button class="btn primary block" data-act="libAdd" data-id="${x.id}">${already?"Add another":"Add to my habits"}</button>
+    </section>
+  </div>`;
+}
+function libAdd(libId){
+  const x=LIB.find(y=>y.id===libId);
+  if(!x)return;
+  const time=document.getElementById("lib-t").value||x.t;
+  const duration=parseInt(document.getElementById("lib-d").value,10)||x.d;
+  const days=[...document.querySelectorAll("#lib-days input:checked")].map(i=>parseInt(i.value,10));
+  if(days.length===0)return toast("Pick at least one day");
+  state.habits.push({id:uid(),name:x.n,time,duration,days,cat:x.c,created:dk(today())});
+  save();toast(`${x.n} added`);go({name:"today"});
+}
+
+/* ================= HABIT DETAIL (user habit) ================= */
+function vHabit(id){
+  const h=state.habits.find(x=>x.id===id);
+  if(!h){go({name:"habits"});return""}
+  const tk=dk(today());
+  const lib=LIB.find(x=>x.n.toLowerCase()===h.name.toLowerCase());
+  const info=CAT_INFO[lib?.c||h.cat]||CAT_INFO.Morning;
+
+  return `
+  <div class="stack">
+    <button class="crumb" data-act="tab" data-tab="habits">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+      All habits
+    </button>
+
+    <div class="title-block hd" style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+      <div>
+        <h1>${esc(h.name)}</h1>
+        <div class="sub">${h.time} · ${h.duration} min · ${h.cat||"General"}</div>
+        <div class="sub" style="margin-top:6px">${curStreak(h)} current · ${bestStreak(h)} best</div>
+      </div>
+      <button class="check ${isDone(h.id,tk)?"on":""}" data-act="toggle" data-id="${h.id}">✓</button>
+    </div>
+
+    <div class="qbox">"${esc(quoteFor(h,tk))}"</div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" data-act="timer" data-id="${h.id}">Start timer</button>
+      <button class="btn" data-act="tab" data-tab="discover">Find similar</button>
+    </div>
+
+    <section class="card">
+      <h3>What it helps</h3>
+      <ul class="list">${info.helps.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>
+    </section>
+
+    <section class="card">
+      <h3>How to do it better</h3>
+      <ul class="list">${info.tips.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>
+    </section>
+
+    ${lib?`<section class="card">
+      <h3>Book summaries</h3>
+      ${lib.b.map(bk=>`
+        <div class="book">
+          <b>${esc(bk.t)}</b>
+          <span class="au">${esc(bk.a)}</span>
+          <div class="sm">${esc(bk.s)}</div>
+        </div>`).join("")}
+    </section>`:""}
+
+    <section class="card">
+      <h3>AI coach</h3>
+      <p class="hint" style="margin-bottom:12px">Describe what you do and what gets in the way. Your prompt is copied and the assistant opens in a new tab.</p>
+      <textarea class="ta" id="coach-in" placeholder="I run three times a week but skip it whenever it rains or I sleep badly…"></textarea>
+      <div class="grid2" style="margin-top:10px">
+        <button class="btn primary" data-act="coach" data-id="${h.id}" data-ai="deepseek">Ask DeepSeek</button>
+        <button class="btn" data-act="coach" data-id="${h.id}" data-ai="populi">Ask Populi</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Quiz me</h3>
+      <p class="hint" style="margin-bottom:12px">Enter a topic and a difficulty. Five questions, asked one at a time.</p>
+      <div class="field"><label class="fl">Topic</label><input class="in" id="quiz-t" placeholder="e.g. zone 2 training"></div>
+      <div class="field"><label class="fl">Difficulty</label>
+        <select class="in" id="quiz-d">
+          <option>Easy</option><option selected>Medium</option><option>Hard</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <button class="btn primary" data-act="quiz" data-id="${h.id}" data-ai="deepseek">Quiz on DeepSeek</button>
+        <button class="btn" data-act="quiz" data-id="${h.id}" data-ai="populi">Quiz on Populi</button>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ================= TIMER ================= */
+function vTimer(){
+  const t=state.timer;
+  if(!t)return `<div class="card empty">No timer running.<br><button class="btn primary sm" style="margin-top:14px" data-act="tab" data-tab="today">Back to Today</button></div>`;
+  const h=state.habits.find(x=>x.id===t.habitId);
+  if(!h){state.timer=null;save();return `<div class="card empty">Habit no longer exists.</div>`}
+  const rem=t.running?Math.max(0,t.endsAt-Date.now()):t.remaining;
+  const total=t.total||h.duration*60000;
+  const R=104,C=2*Math.PI*R;
+  const prog=Math.min(1,Math.max(0,1-rem/total));
+  return `
+  <div class="stack">
+    <button class="crumb" data-act="habit" data-id="${h.id}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+      ${esc(h.name)}
+    </button>
+    <section class="card">
+      <div class="ringwrap">
+        <div class="ring">
+          <svg width="236" height="236">
+            <circle cx="118" cy="118" r="${R}" fill="none" stroke="#232932" stroke-width="10"/>
+            <circle id="tring" cx="118" cy="118" r="${R}" fill="none" stroke="#c9a961" stroke-width="10"
+              stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C*(1-prog)).toFixed(1)}"/>
+          </svg>
+          <div class="inr">
+            <div>
+              <b id="tcount">${fmtMS(rem)}</b>
+              <span>${esc(h.name)}</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:26px">
+          ${t.running
+            ? `<button class="btn primary" data-act="tpause">Pause</button>`
+            : `<button class="btn primary" data-act="tstart">${rem<total?"Resume":"Start"}</button>`}
+          <button class="btn" data-act="treset">Reset</button>
+          <button class="btn" data-act="tdone">Mark done</button>
+        </div>
+        <p class="hint" style="margin-top:20px;text-align:center;max-width:340px">
+          Keeps counting if you leave this page. The habit is marked done automatically when it reaches zero.
+        </p>
+      </div>
+    </section>
+  </div>`;
+}
+function fmtMS(ms){const s=Math.max(0,Math.ceil(ms/1000));return `${Math.floor(s/60)}:${pad(s%60)}`}
+function updateTimerUI(){
+  const t=state.timer;
+  if(!t||route.name!=="timer")return;
+  const c=document.getElementById("tcount"),r=document.getElementById("tring");
+  if(!c||!r)return;
+  const rem=t.running?Math.max(0,t.endsAt-Date.now()):t.remaining;
+  const total=t.total||1;
+  c.textContent=fmtMS(rem);
+  const C=2*Math.PI*104;
+  r.setAttribute("stroke-dashoffset",(C*Math.min(1,Math.max(0,1-rem/total))).toFixed(1));
+}
+function openTimer(id){
+  const h=state.habits.find(x=>x.id===id);
+  if(!h)return;
+  const total=h.duration*60000;
+  state.timer={habitId:id,total,remaining:total,endsAt:null,running:false};
+  save();go({name:"timer"});
+}
+function startT(){const t=state.timer;if(!t)return;if(t.remaining<=0)t.remaining=t.total;t.endsAt=Date.now()+t.remaining;t.running=true;save();render()}
+function pauseT(){const t=state.timer;if(!t||!t.running)return;t.remaining=Math.max(0,t.endsAt-Date.now());t.running=false;save();render()}
+function resetT(){const t=state.timer;if(!t)return;t.remaining=t.total;t.running=false;t.endsAt=null;save();render()}
+function doneT(){
+  const t=state.timer;if(!t)return;
+  mark(t.habitId,dk(today()),true);
+  const h=state.habits.find(x=>x.id===t.habitId);
+  state.timer=null;save();
+  if(route.name==="timer")go({name:"today"});else render();
+  if(h)toast(`${h.name} done ✓`);
+  beep();
+}
+
+/* ================= PROGRESS ================= */
+function vProgress(){
+  const t=today();
+  let chart="";
+  for(let i=6;i>=0;i--){
+    const d=addD(t,-i),k=dk(d),s=dayStats(k);
+    const cls=s.pct>=80?"g":s.pct>=40?"m":s.pct>0?"l":"";
+    chart+=`<div class="bcol"><div class="bar2 ${cls}" style="height:${Math.max(3,s.pct)}%" title="${k}: ${s.done}/${s.total}"></div><div class="blab">${DL[d.getDay()]}</div></div>`;
+  }
+  function week(off){
+    let dn=0,tt=0;
+    for(let i=0;i<7;i++){
+      const k=dk(addD(t,-(off*7+i)));
+      const s=dayStats(k);dn+=s.done;tt+=s.total;
+    }
+    return{pct:tt?Math.round(dn/tt*100):0};
+  }
+  const tw=week(0),lw=week(1),delta=tw.pct-lw.pct;
+
+  const rates=state.habits.map(h=>({h,...rate(h,7)})).filter(x=>x.sched>0);
+  const strong=rates.length?rates.reduce((a,b)=>b.pct>a.pct?b:a):null;
+  const weak=rates.length?rates.reduce((a,b)=>b.pct<a.pct?b:a):null;
+
+  let dayList="";
+  for(let i=13;i>=0;i--){
+    const d=addD(t,-i),k=dk(d),s=dayStats(k);
+    dayList+=`<div class="drow"><div class="dn">${DSHORT[d.getDay()]} ${d.getDate()}</div><div class="db"><i style="width:${s.pct}%"></i></div><div class="dv">${s.done}/${s.total}</div></div>`;
+  }
+  const perHabit=state.habits.map(h=>{
+    const r=rate(h,30);
+    return `<div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;gap:10px;font-size:13.5px"><span style="font-weight:600">${esc(h.name)}</span><span class="hint">${r.pct}% · ${r.done}/${r.sched}</span></div>
+      <div class="hbar"><i style="width:${r.pct}%"></i></div>
+      <div class="hint" style="margin-top:6px">${curStreak(h)} current · ${bestStreak(h)} best</div>
+    </div>`;
+  }).join("");
+
+  const maxBest=state.habits.length?Math.max(...state.habits.map(bestStreak)):0;
+  const badges=[7,21,66].map(n=>`<div class="badge ${maxBest>=n?"on":""}"><b>${n}</b><span>days</span></div>`).join("");
+
+  return `
+  <div class="stack">
+    <div>
+      <h1 style="margin:0 0 4px">Progress</h1>
+      <div class="hint">A quiet record of what you have actually done.</div>
+    </div>
+
+    <section class="card">
+      <div class="hd"><h3>Last 7 days</h3></div>
+      <div class="chart">${chart}</div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Weekly review</h3></div>
+      <div class="statgrid">
+        <div class="stat"><b>${tw.pct}%</b><span>This week</span></div>
+        <div class="stat"><b>${lw.pct}%</b><span>Last week</span></div>
+        <div class="stat"><b style="color:${delta>0?"var(--good)":delta<0?"var(--danger)":"var(--text)"}">${delta>0?"+":""}${delta}%</b><span>Change</span></div>
+      </div>
+      ${strong?`<hr class="rule"><div style="font-size:13.5px;color:var(--text-2)">
+        <div>Strongest — <b>${esc(strong.h.name)}</b> · ${strong.pct}%</div>
+        <div style="margin-top:6px">Needs work — <b>${esc(weak.h.name)}</b> · ${weak.pct}%</div>
+      </div>`:`<p class="hint" style="margin-top:14px">Nothing scheduled in the last 7 days.</p>`}
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Day by day</h3><span class="hint">14 days</span></div>
+      <div class="daylist">${dayList}</div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Per habit</h3><span class="hint">30 days</span></div>
+      ${state.habits.length?perHabit:`<p class="hint">No habits yet.</p>`}
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Badges</h3></div>
+      <div class="badges">${badges}</div>
+      <p class="hint" style="margin-top:14px">Longest streak so far: <b style="color:var(--text)">${maxBest}</b> day${maxBest===1?"":"s"}.</p>
+    </section>
+  </div>`;
+}
+
+/* ================= SETTINGS ================= */
+function vSettings(){
+  const on=!!state.settings.notifications;
+  const sup="Notification" in window;
+  const perm=sup?Notification.permission:"unsupported";
+  const ai=state.settings.ai||"deepseek";
+  return `
+  <div class="stack">
+    <div>
+      <h1 style="margin:0 0 4px">Settings</h1>
+      <div class="hint">Everything stays on this device.</div>
+    </div>
+
+    <section class="card">
+      <div class="hd"><h3>Notifications</h3></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div>
+          <div style="font-weight:600">System notifications</div>
+          <div class="hint" style="margin-top:3px">${sup?"Permission: "+perm:"Not supported in this browser"}</div>
+        </div>
+        <button class="btn ${on?"primary":""}" data-act="notif">${on?"On":"Off"}</button>
+      </div>
+      <p class="hint" style="margin-top:14px">Reminders fire while the app is open — banner, beep and vibration. Skipped if the habit is already done.</p>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>AI assistant</h3></div>
+      <p class="hint" style="margin-bottom:12px">Where coaching and quiz prompts open. DeepSeek is default; Populi works without an account.</p>
+      <div class="grid2">
+        <button class="btn ${ai==="deepseek"?"primary":""}" data-act="setai" data-v="deepseek">DeepSeek</button>
+        <button class="btn ${ai==="populi"?"primary":""}" data-act="setai" data-v="populi">Populi AI</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Install app</h3></div>
+      <p class="hint" style="margin-bottom:12px">Add Discipline to your home screen. Works offline after first visit.</p>
+      <button class="btn block" id="installBtn" data-act="install">Install on this device</button>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Data</h3></div>
+      <p class="hint" style="margin-bottom:14px">Export a backup file, or restore from one.</p>
+      <button class="btn block" style="margin-bottom:10px" data-act="export">Export backup (.json)</button>
+      <button class="btn block" style="margin-bottom:10px" data-act="import">Import backup</button>
+      <input type="file" id="importfile" accept="application/json,.json" hidden>
+      <button class="btn danger block" data-act="wipe">Reset all data</button>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>Overview</h3></div>
+      <div class="statgrid">
+        <div class="stat"><b>${state.habits.length}</b><span>Habits</span></div>
+        <div class="stat"><b>${xpTotal()}</b><span>XP</span></div>
+        <div class="stat"><b>${lvl().level}</b><span>Level</span></div>
+      </div>
+    </section>
+
+    <p class="hint" style="text-align:center;padding:14px 0">Discipline · v2</p>
+  </div>`;
+}
+
+/* ============================================================
+   POST-RENDER
+   ============================================================ */
+function post(){
+  const r=document.getElementById("refl");
+  if(r)r.addEventListener("input",()=>{state.reflections[dk(today())]=r.value;save()});
+
+  const q=document.getElementById("lib-q");
+  if(q){
+    q.addEventListener("input",()=>{
+      libQuery=q.value;
+      clearTimeout(post._t);
+      post._t=setTimeout(()=>{
+        const pos=q.selectionStart;
+        render();
+        const nq=document.getElementById("lib-q");
+        if(nq){nq.focus();try{nq.setSelectionRange(pos,pos)}catch(e){}}
+      },140);
+    });
+  }
+
+  const file=document.getElementById("importfile");
+  if(file)file.addEventListener("change",e=>{
+    const f=e.target.files&&e.target.files[0];
+    if(!f)return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const d=JSON.parse(reader.result);
+        if(!d||!Array.isArray(d.habits))throw new Error("bad file");
+        state={habits:d.habits,log:d.log||{},reflections:d.reflections||{},settings:Object.assign({notifications:false,ai:"deepseek"},d.settings||{}),reminded:{},timer:null};
+        save();render();toast("Backup imported");
+      }catch(err){toast("That file could not be read")}
+    };
+    reader.readAsText(f);
+    e.target.value="";
+  });
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-act]");
+  if(!el)return;
+  const act=el.dataset.act;
+
+  switch(act){
+    case "tab":
+      if(el.dataset.tab==="discover"){libQuery="";libCat="All"}
+      go({name:el.dataset.tab});
+      break;
+
+    case "libCat":
+      libCat=el.dataset.cat;
+      render();
+      break;
+
+    case "libOpen":
+      go({name:"lib",id:el.dataset.id});
+      break;
+
+    case "libAdd":
+      libAdd(el.dataset.id);
+      break;
+
+    case "toggle":{
+      const id=el.dataset.id,k=dk(today());
+      const now=!isDone(id,k);
+      mark(id,k,now);
+      if(now){const h=state.habits.find(x=>x.id===id);toast(`${h?h.name:"Habit"} done ✓`)}
+      render();
+      break;
+    }
+
+    case "habit":
+      go({name:"habit",id:el.dataset.id});
+      break;
+
+    case "timer":
+      openTimer(el.dataset.id);
+      break;
+
+    case "del":{
+      const id=el.dataset.id,h=state.habits.find(x=>x.id===id);
+      if(!h)break;
+      if(!confirm(`Delete "${h.name}"?`))break;
+      state.habits=state.habits.filter(x=>x.id!==id);
+      if(state.timer&&state.timer.habitId===id)state.timer=null;
+      save();toast("Habit deleted");render();
+      break;
+    }
+
+    case "addHabit": addHabit(); break;
+
+    case "coach":{
+      const h=state.habits.find(x=>x.id===el.dataset.id);
+      const box=document.getElementById("coach-in");
+      const txt=box?box.value.trim():"";
+      if(!h)break;
+      if(!txt){toast("Describe what you do first");break}
+      const prompt=`I'm working on this daily habit: "${h.name}" (${h.duration} minutes, scheduled at ${h.time}).\n\nWhat I do: ${txt}\n\nPlease act as my habit coach. Give me specific, practical advice: what to change, how to handle the obstacle I described, and one small thing to try tomorrow.`;
+      openAI(prompt,el.dataset.ai||state.settings.ai);
+      break;
+    }
+
+    case "quiz":{
+      const h=state.habits.find(x=>x.id===el.dataset.id);
+      const topicEl=document.getElementById("quiz-t");
+      const diffEl=document.getElementById("quiz-d");
+      const topic=topicEl?topicEl.value.trim():"";
+      const diff=diffEl?diffEl.value:"Medium";
+      if(!topic){toast("Enter a topic first");break}
+      const prompt=`Quiz me on: ${topic}\nDifficulty: ${diff}\nContext: I'm building a daily habit called "${h?h.name:"this"}".\n\nAsk me 5 questions, one at a time. Wait for my answer before asking the next. After each answer, tell me whether I was right with a brief explanation, then move on. At the end, give me a score out of 5 and one thing to review.`;
+      openAI(prompt,el.dataset.ai||state.settings.ai);
+      break;
+    }
+
+    case "tstart":startT();break;
+    case "tpause":pauseT();break;
+    case "treset":resetT();break;
+    case "tdone":doneT();break;
+
+    case "notif":{
+      if(!("Notification" in window)){toast("Not supported");break}
+      if(state.settings.notifications){state.settings.notifications=false;save();render();toast("Notifications off")}
+      else{
+        Notification.requestPermission().then(p=>{
+          state.settings.notifications=(p==="granted");
+          save();render();
+          toast(p==="granted"?"Notifications on":"Permission denied");
+        });
+      }
+      break;
+    }
+
+    case "setai":
+      state.settings.ai=el.dataset.v;save();render();toast("AI set to "+el.dataset.v);
+      break;
+
+    case "install":
+      installApp();
+      break;
+
+    case "export":{
+      const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url;a.download=`discipline-${dk(today())}.json`;
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      toast("Backup downloaded");
+      break;
+    }
+
+    case "import":{
+      const f=document.getElementById("importfile");
+      if(f)f.click();
+      break;
+    }
+
+    case "wipe":{
+      if(!confirm("Erase all habits, history and reflections? This cannot be undone."))return;
+      localStorage.removeItem(KEY);
+      state={habits:[],log:{},reflections:{},settings:{notifications:false,ai:"deepseek"},reminded:{},timer:null};
+      save();go({name:"today"});toast("All data cleared");
+      break;
+    }
+  }
+});
+
+/* ============================================================
+   AI REDIRECT
+   ============================================================ */
+function openAI(prompt,which){
+  which=which||state.settings.ai||"deepseek";
+  const urls={deepseek:"https://chat.deepseek.com/",populi:"https://populi.ai/"};
+  const url=urls[which]||urls.deepseek;
+  const open=()=>window.open(url,"_blank","noopener");
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(()=>{
+      toast("Prompt copied — paste it in the chat");
+      open();
+    }).catch(()=>{open();toast("Opening the assistant…")});
+  }else{
+    // fallback: textarea select
+    const ta=document.createElement("textarea");
+    ta.value=prompt;document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy")}catch(e){}
+    ta.remove();
+    toast("Prompt copied — paste it in the chat");
+    open();
+  }
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.innerHTML=`<div class="tt">${esc(msg)}</div>`;
+  el.classList.add("show");
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove("show"),2800);
+}
+
+/* ============================================================
+   BEEP / NOTIFY
+   ============================================================ */
+function beep(){
+  try{
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx)return;
+    const ctx=new Ctx();
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type="sine";o.frequency.value=880;
+    o.connect(g);g.connect(ctx.destination);
+    g.gain.setValueAtTime(0.0001,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.2,ctx.currentTime+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.55);
+    o.start();o.stop(ctx.currentTime+0.6);
+    setTimeout(()=>ctx.close().catch(()=>{}),900);
+  }catch(e){}
+}
+function sysNotify(title,body){
+  try{
+    if(state.settings.notifications&&"Notification" in window&&Notification.permission==="granted"){
+      new Notification(title,{body});
+    }
+  }catch(e){}
+}
+
+/* ============================================================
+   REMINDERS
+   ============================================================ */
+function checkReminders(){
+  const now=new Date(),tk=dk(now);
+  const hhmm=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  state.reminded[tk]=state.reminded[tk]||{};
+  let changed=false;
+  state.habits.forEach(h=>{
+    if(!schedOn(h,now))return;
+    if(h.time!==hhmm)return;
+    if(isDone(h.id,tk))return;
+    if(state.reminded[tk][h.id])return;
+    state.reminded[tk][h.id]=true;changed=true;
+    toast(`⏰ ${h.name} — ${h.duration} min`);
+    beep();
+    if(navigator.vibrate){try{navigator.vibrate([140,70,140])}catch(e){}}
+    sysNotify(`Time for ${h.name}`,`${h.duration} minutes.`);
+  });
+  const keys=Object.keys(state.reminded);
+  if(keys.length>5){keys.sort();while(keys.length>3)delete state.reminded[keys.shift()];changed=true}
+  if(changed)save();
+}
+
+/* ============================================================
+   PWA INSTALL
+   ============================================================ */
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();deferredPrompt=e;
+  const b=document.getElementById("installBtn");
+  if(b){b.disabled=false;b.textContent="Install on this device"}
+});
+window.addEventListener("appinstalled",()=>{deferredPrompt=null;toast("App installed")});
+function installApp(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(c=>{
+      if(c.outcome==="accepted")toast("Installing…");
+      deferredPrompt=null;
+    });
+  }else{
+    toast("Use your browser menu → Install app / Add to home screen");
+  }
+}
+
+/* ============================================================
+   SERVICE WORKER
+   ============================================================ */
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("sw.js").catch(e=>console.warn("SW",e));
+  });
+}
+
+/* ============================================================
+   TICK
+   ============================================================ */
+setInterval(()=>{
+  const t=state.timer;
+  if(t&&t.running){
+    if(Date.now()>=t.endsAt){doneT();return}
+    updateTimerUI();
+  }
+},400);
+setInterval(checkReminders,15000);
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+render();
+checkReminders();
+</script>
+</body>
+</html>
