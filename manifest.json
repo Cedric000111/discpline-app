@@ -1,0 +1,26 @@
+{
+  "name": "Discipline — Daily Habits",
+  "short_name": "Discipline",
+  "description": "A focused habit tracker with a curated library of 55+ practices, philosopher quotes and book summaries.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f1215",
+  "theme_color": "#0f1215",
+  "categories": ["productivity", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%230f1215'/%3E%3Ccircle cx='256' cy='256' r='146' fill='none' stroke='%23c9a961' stroke-width='30'/%3E%3Cpath d='M180 258l56 56 100-118' fill='none' stroke='%23c9a961' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%230f1215'/%3E%3Ccircle cx='256' cy='256' r='146' fill='none' stroke='%23c9a961' stroke-width='30'/%3E%3Cpath d='M180 258l56 56 100-118' fill='none' stroke='%23c9a961' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
