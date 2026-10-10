@@ -1207,4 +1207,482 @@ function vProgress(){
   const t = today();
   let chart = "";
   for (let i = 6; i >= 0; i--) {
-    const d = addD(t
+    const d = addD(t, -i), k = dk(d), s = dayStats(k);
+    const cls = s.pct >= 80 ? "g" : s.pct >= 40 ? "m" : s.pct > 0 ? "l" : "";
+    chart += `<div class="bcol"><div class="bar2 ${cls}" style="height:${Math.max(5, s.pct)}%" title="${k}: ${s.done}/${s.total}"></div><div class="blab">${DL[d.getDay()]}</div></div>`;
+  }
+  function week(off){
+    let dn = 0, tt = 0;
+    for (let i = 0; i < 7; i++) {
+      const k = dk(addD(t, -(off*7+i)));
+      const s = dayStats(k); dn += s.done; tt += s.total;
+    }
+    return {pct: tt ? Math.round(dn/tt*100) : 0};
+  }
+  const tw = week(0), lw = week(1), delta = tw.pct - lw.pct;
+  const rates = state.habits.map(h => ({h, ...rate(h,7)})).filter(x => x.sched > 0);
+  const strong = rates.length ? rates.reduce((a,b) => b.pct > a.pct ? b : a) : null;
+  const weak = rates.length ? rates.reduce((a,b) => b.pct < a.pct ? b : a) : null;
+  let dayList = "";
+  for (let i = 13; i >= 0; i--) {
+    const d = addD(t, -i), k = dk(d), s = dayStats(k);
+    dayList += `<div class="drow"><div class="dn">${DSHORT[d.getDay()]} ${d.getDate()}</div><div class="db"><i style="width:${s.pct}%"></i></div><div class="dv">${s.done}/${s.total}</div></div>`;
+  }
+  const perHabit = state.habits.map(h => {
+    const r = rate(h, 30);
+    return `<div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:800"><span>${esc(h.name)}</span><span class="hint">${r.pct}% · ${r.done}/${r.sched}</span></div>
+      <div class="hbar"><i style="width:${r.pct}%"></i></div>
+      <div class="hint" style="margin-top:6px">${curStreak(h)} ${T.current} · ${bestStreak(h)} ${T.best}</div>
+    </div>`;
+  }).join("");
+  const maxBest = state.habits.length ? Math.max(...state.habits.map(bestStreak)) : 0;
+  const badges = [7,21,66].map(n => `<div class="badge ${maxBest>=n?"on":""}"><b>${n}</b><span>${T.daysL}</span></div>`).join("");
+  return `
+  <div class="stack">
+    <div><h1 style="margin:0 0 4px">${T.progress}</h1><div class="hint">${T.xpL}: ${xpTotal()} · ${T.lvlL} ${lvl().level}</div></div>
+    <section class="card"><div class="hd"><h3>${T.last7}</h3></div><div class="chart">${chart}</div></section>
+    <section class="card">
+      <div class="hd"><h3>${T.weeklyReview}</h3></div>
+      <div class="statgrid">
+        <div class="stat"><b>${tw.pct}%</b><span>${T.thisWeek}</span></div>
+        <div class="stat"><b>${lw.pct}%</b><span>${T.lastWeek}</span></div>
+        <div class="stat"><b style="color:${delta>0?"var(--green-d)":delta<0?"var(--red)":"var(--text)"}">${delta>0?"+":""}${delta}%</b><span>${T.changeL}</span></div>
+      </div>
+      ${strong ? `<hr class="rule"><div style="font-size:14px;color:var(--text-2);font-weight:700"><div>💪 <b>${T.strongest}</b> — ${esc(strong.h.name)} · ${strong.pct}%</div><div style="margin-top:6px">🎯 <b>${T.needsWork}</b> — ${esc(weak.h.name)} · ${weak.pct}%</div></div>` : ""}
+    </section>
+    <section class="card"><div class="hd"><h3>${T.dayByDay}</h3><span class="hint">${T.last14}</span></div><div class="daylist">${dayList}</div></section>
+    <section class="card"><div class="hd"><h3>${T.perHabit}</h3><span class="hint">${T.last30}</span></div>${state.habits.length ? perHabit : `<p class="hint">—</p>`}</section>
+    <section class="card">
+      <div class="hd"><h3>${T.badges}</h3></div>
+      <div class="badges">${badges}</div>
+      <p class="hint" style="margin-top:14px">${T.longest}: <b style="color:var(--text)">${maxBest}</b> ${T.daysL}.</p>
+    </section>
+  </div>`;
+}
+
+/* ================= SETTINGS ================= */
+function vSettings(){
+  const on = !!state.settings.notifications;
+  const sup = "Notification" in window;
+  const perm = sup ? Notification.permission : "unsupported";
+  const ai = state.settings.ai || "deepseek";
+  const langs = Object.keys(I18N);
+  return `
+  <div class="stack">
+    <div><h1 style="margin:0 0 4px">${T.settings}</h1><div class="hint">${esc(state.profile.name)}</div></div>
+
+    <section class="card">
+      <div class="hd"><h3>${T.langQ}</h3></div>
+      <div class="lang-grid">
+        ${langs.map(code => {
+          const L = I18N[code];
+          const sel = state.profile.lang === code;
+          return `<button class="lang-opt ${sel?"sel":""}" data-act="setlang" data-lang="${code}">
+            <span class="flag">${L.flag}</span><span>${L.label}</span>
+          </button>`;
+        }).join("")}
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>${T.notifications}</h3></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div><div style="font-weight:800">${T.sysNotif}</div><div class="hint" style="margin-top:3px">${sup ? T.permission + ": " + perm : T.notSupported}</div></div>
+        <button class="btn ${on?"primary":"ghost"}" data-act="notif">${on?T.on:T.off}</button>
+      </div>
+      <p class="hint" style="margin-top:14px">${T.notifS}</p>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>${T.aiCoach}</h3></div>
+      <div class="grid2">
+        <button class="btn ${ai==="deepseek"?"blue":"ghost"}" data-act="setai" data-v="deepseek">DeepSeek</button>
+        <button class="btn ${ai==="populi"?"purple":"ghost"}" data-act="setai" data-v="populi">Populi AI</button>
+      </div>
+      <p class="hint" style="margin-top:12px">${T.quizMe} → <b>Gemini</b></p>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>${T.installApp}</h3></div>
+      <p class="hint" style="margin-bottom:12px">${T.installS}</p>
+      <button class="btn primary block" id="installBtn" data-act="install">${T.install}</button>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>${T.data}</h3></div>
+      <p class="hint" style="margin-bottom:14px">${T.dataS}</p>
+      <button class="btn block" style="margin-bottom:10px" data-act="export">${T.exportB}</button>
+      <button class="btn block" style="margin-bottom:10px" data-act="import">${T.importB}</button>
+      <input type="file" id="importfile" accept="application/json,.json" hidden>
+      <button class="btn danger block" data-act="wipe">${T.reset}</button>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h3>${T.overview}</h3></div>
+      <div class="statgrid">
+        <div class="stat"><b>${state.habits.length}</b><span>${T.habitsC}</span></div>
+        <div class="stat"><b>${xpTotal()}</b><span>${T.xpL}</span></div>
+        <div class="stat"><b>${lvl().level}</b><span>${T.lvlL}</span></div>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ============================================================
+   Post-render
+   ============================================================ */
+function post(){
+  const r = document.getElementById("refl");
+  if (r) r.addEventListener("input", () => { state.reflections[dk(today())] = r.value; save(); });
+
+  const nameIn = document.getElementById("ob-name");
+  if (nameIn) {
+    nameIn.addEventListener("input", () => { onboardDraft.name = nameIn.value; });
+    nameIn.addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); document.querySelector('[data-act="ob-next"]').click(); }
+    });
+  }
+
+  const q = document.getElementById("lib-q");
+  if (q) {
+    q.addEventListener("input", () => {
+      libQuery = q.value;
+      clearTimeout(post._t);
+      post._t = setTimeout(() => {
+        const pos = q.selectionStart;
+        render();
+        const nq = document.getElementById("lib-q");
+        if (nq) { nq.focus(); try { nq.setSelectionRange(pos, pos); } catch(e){} }
+      }, 160);
+    });
+  }
+
+  const file = document.getElementById("importfile");
+  if (file) file.addEventListener("change", e => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const d = JSON.parse(reader.result);
+        if (!d || !Array.isArray(d.habits)) throw new Error("bad");
+        const b = blankState();
+        state = Object.assign(b, d, {
+          habits: d.habits,
+          log: d.log || {},
+          reflections: d.reflections || {},
+          settings: Object.assign(b.settings, d.settings || {}),
+          reminded: {},
+          timer: null
+        });
+        save(); render(); toast(T.imported);
+      } catch(err) { toast("—"); }
+    };
+    reader.readAsText(f);
+    e.target.value = "";
+  });
+}
+
+/* ============================================================
+   Events
+   ============================================================ */
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+
+  switch (act) {
+    /* onboarding */
+    case "ob-next": {
+      const n = (document.getElementById("ob-name").value || "").trim();
+      if (!n) return toast(T.giveName);
+      onboardDraft.name = n;
+      onboardStep = 2;
+      render();
+      break;
+    }
+    case "ob-lang":
+      onboardDraft.lang = el.dataset.lang;
+      setLang(onboardDraft.lang);
+      render();
+      break;
+    case "ob-start": {
+      if (!onboardDraft.name) { onboardStep = 1; return render(); }
+      state.profile = {
+        name: onboardDraft.name.slice(0, 24),
+        lang: onboardDraft.lang || "en",
+        created: dk(today())
+      };
+      save();
+      toast(`${T.hello}, ${state.profile.name}!`);
+      render();
+      break;
+    }
+
+    /* app */
+    case "tab":
+      if (el.dataset.tab === "discover") { libQuery = ""; libCat = "All"; }
+      go({name: el.dataset.tab});
+      break;
+    case "libCat": libCat = el.dataset.cat; render(); break;
+    case "libOpen": go({name:"lib", id: el.dataset.id}); break;
+    case "libAdd": libAdd(el.dataset.id); break;
+    case "toggle": {
+      const id = el.dataset.id, k = dk(today());
+      const now = !isDone(id, k);
+      mark(id, k, now);
+      if (now) { const h = state.habits.find(x => x.id === id); toast(`${h ? h.name : ""} ${T.done} ✓`); }
+      render();
+      break;
+    }
+    case "habit": go({name:"habit", id: el.dataset.id}); break;
+    case "timer": openTimer(el.dataset.id); break;
+    case "del": {
+      const id = el.dataset.id, h = state.habits.find(x => x.id === id);
+      if (!h) break;
+      if (!confirm(`${T.confirmDel} "${h.name}"`)) break;
+      state.habits = state.habits.filter(x => x.id !== id);
+      if (state.timer && state.timer.habitId === id) state.timer = null;
+      save(); toast(T.habitDeleted); render();
+      break;
+    }
+    case "addHabit": addHabit(); break;
+
+    case "coach": {
+      const h = state.habits.find(x => x.id === el.dataset.id);
+      const box = document.getElementById("coach-in");
+      const txt = box ? box.value.trim() : "";
+      if (!h) break;
+      if (!txt) { toast(T.descr); break; }
+      const prompt = `I'm working on this daily habit: "${h.name}" (${h.duration} minutes, at ${h.time}).\n\nWhat I do: ${txt}\n\nPlease act as my habit coach. Give me specific, practical advice: what to change, how to handle the obstacle I described, and one small thing to try tomorrow.`;
+      openAI(prompt, el.dataset.ai || state.settings.ai);
+      break;
+    }
+    case "quiz": {
+      const h = state.habits.find(x => x.id === el.dataset.id);
+      const topicEl = document.getElementById("quiz-t");
+      const diffEl = document.getElementById("quiz-d");
+      const topic = topicEl ? topicEl.value.trim() : "";
+      const diff = diffEl ? diffEl.value : "Medium";
+      if (!topic) { toast(T.topicNeed); break; }
+      const prompt = `Create a quiz on ${topic}. Difficulty: ${diff}.\nContext: I'm building a daily habit called "${h ? h.name : "this"}".\n\nAsk me 5 questions, one at a time. Wait for my answer before asking the next. After each answer, tell me briefly whether I was right, then move on. At the end, give me a score out of 5 and one thing to review.`;
+      askGemini(prompt);
+      break;
+    }
+
+    case "tstart": startT(); break;
+    case "tpause": pauseT(); break;
+    case "treset": resetT(); break;
+    case "tdone": doneT(); break;
+
+    case "notif": {
+      if (!("Notification" in window)) { toast(T.notSupported); break; }
+      if (state.settings.notifications) { state.settings.notifications = false; save(); render(); toast(T.notifOff); }
+      else {
+        Notification.requestPermission().then(p => {
+          state.settings.notifications = (p === "granted");
+          save(); render();
+          toast(p === "granted" ? T.notifOn : T.denied);
+        });
+      }
+      break;
+    }
+    case "setai": state.settings.ai = el.dataset.v; save(); render(); toast(T.aiSet + el.dataset.v); break;
+    case "setlang": {
+      state.profile.lang = el.dataset.lang;
+      setLang(state.profile.lang);
+      save(); render();
+      break;
+    }
+    case "install": installApp(); break;
+
+    case "export": {
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `discipline-${dk(today())}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      toast(T.saved);
+      break;
+    }
+    case "import": {
+      const f = document.getElementById("importfile");
+      if (f) f.click();
+      break;
+    }
+    case "wipe": {
+      if (!confirm(T.confirmWipe)) return;
+      const profile = state.profile;
+      localStorage.removeItem(KEY);
+      state = blankState();
+      state.profile = profile; // keep name + language, wipe habits/history
+      save(); go({name:"today"}); toast(T.wiped);
+      break;
+    }
+  }
+});
+
+/* ============================================================
+   AI redirects
+   ============================================================ */
+function copyText(text){
+  return new Promise(resolve => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => resolve(true)).catch(() => resolve(false));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed"; ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch(e){}
+      ta.remove();
+      resolve(ok);
+    }
+  });
+}
+function askGemini(prompt){
+  const url = "https://gemini.google.com/app";
+  copyText(prompt).then(ok => {
+    toast(ok ? T.promptCopied : T.openingAI);
+    window.open(url, "_blank", "noopener");
+  });
+}
+function openAI(prompt, which){
+  which = which || state.settings.ai || "deepseek";
+  const urls = { deepseek: "https://chat.deepseek.com/", populi: "https://populi.ai/" };
+  const url = urls[which] || urls.deepseek;
+  copyText(prompt).then(ok => {
+    toast(ok ? T.promptCopied : T.openingAI);
+    window.open(url, "_blank", "noopener");
+  });
+}
+
+/* ============================================================
+   Toast / beep / notify
+   ============================================================ */
+let toastT = null;
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.innerHTML = `<div class="tt">${esc(msg)}</div>`;
+  el.classList.add("show");
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove("show"), 2800);
+}
+function beep(){
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = 880;
+    o.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(0.0001, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.55);
+    o.start(); o.stop(ctx.currentTime + 0.6);
+    setTimeout(() => ctx.close().catch(() => {}), 900);
+  } catch(e){}
+}
+function sysNotify(title, body){
+  try {
+    if (state.settings.notifications && "Notification" in window && Notification.permission === "granted") {
+      new Notification(title, {body});
+    }
+  } catch(e){}
+}
+
+/* ============================================================
+   Reminders
+   ============================================================ */
+function checkReminders(){
+  if (!state.profile) return;
+  const now = new Date(), tk = dk(now);
+  const hhmm = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  state.reminded[tk] = state.reminded[tk] || {};
+  let changed = false;
+  state.habits.forEach(h => {
+    if (!schedOn(h, now)) return;
+    if (h.time !== hhmm) return;
+    if (isDone(h.id, tk)) return;
+    if (state.reminded[tk][h.id]) return;
+    state.reminded[tk][h.id] = true;
+    changed = true;
+    toast(`⏰ ${h.name} — ${h.duration} min`);
+    beep();
+    if (navigator.vibrate) { try { navigator.vibrate([140, 70, 140]); } catch(e){} }
+    sysNotify(`Time for ${h.name}`, `${h.duration} minutes.`);
+  });
+  const keys = Object.keys(state.reminded);
+  if (keys.length > 5) { keys.sort(); while (keys.length > 3) delete state.reminded[keys.shift()]; changed = true; }
+  if (changed) save();
+}
+
+/* ============================================================
+   PWA install
+   ============================================================ */
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const b = document.getElementById("installBtn");
+  if (b) { b.disabled = false; b.textContent = T.install; }
+});
+window.addEventListener("appinstalled", () => { deferredPrompt = null; toast(T.installed); });
+function installApp(){
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(c => {
+      if (c.outcome === "accepted") toast(T.installedMsg);
+      deferredPrompt = null;
+    });
+  } else {
+    toast(T.installHelp);
+  }
+}
+
+/* ============================================================
+   Service worker
+   ============================================================ */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister()));
+      await navigator.serviceWorker.register("sw.js", { scope: "./" });
+    } catch (e) { console.warn("SW", e); }
+  });
+}
+
+/* ============================================================
+   Tick
+   ============================================================ */
+setInterval(() => {
+  const t = state.timer;
+  if (t && t.running) {
+    if (Date.now() >= t.endsAt) { doneT(); return; }
+    updateTimerUI();
+  }
+}, 400);
+setInterval(checkReminders, 15000);
+/* re-render background when level changes */
+setInterval(() => { if (state.profile) applyBackground(); }, 60000);
+
+/* ============================================================
+   Boot
+   ============================================================ */
+try {
+  if (state.profile) setLang(state.profile.lang);
+  render();
+  checkReminders();
+} catch (e) {
+  const el = document.getElementById("err");
+  if (el) { el.style.display = "block"; el.textContent = "Boot error:\n" + ((e && e.stack) || e); }
+  console.error(e);
+}
+</script>
+</body>
+</html>
