@@ -7,99 +7,98 @@
     <title>Discipline & Mastery OS</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #0b0f19;
-            --card-bg: #1e293b;
-            --card-border: #334155;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #22c55e;
-            --accent: #f59e0b;
-            --danger: #ef4444;
+            --green: #58cc02;
+            --green-dark: #46a302;
+            --green-light: rgba(88, 204, 2, 0.15);
+            --bg: #131f24;
+            --card-bg: #1f2937;
+            --card-border: #374151;
+            --text: #ffffff;
+            --text-muted: #9ca3af;
+            --accent: #ffc800;
+            --danger: #ff4b4b;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; }
         
         /* Navigation Bar */
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; backdrop-filter: blur(10px); }
-        .nav-btn { background: none; border: none; color: var(--text-muted); font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; }
-        .nav-btn.active { color: var(--primary); font-weight: bold; }
-        .nav-icon { font-size: 1.3rem; }
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111827; border-top: 2px solid var(--card-border); display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; }
+        .nav-btn { background: none; border: none; color: var(--text-muted); font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; font-weight: 600; }
+        .nav-btn.active { color: var(--green); }
+        .nav-icon { font-size: 1.4rem; }
 
-        .container { max-width: 650px; margin: 0 auto; padding: 16px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 16px; }
         .view { display: none; }
         .view.active { display: block; }
 
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        h1 { font-size: 1.4rem; color: #fff; }
-        .badge-pill { background: rgba(99, 102, 241, 0.15); color: var(--primary); padding: 5px 10px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(99, 102, 241, 0.3); }
+        h1 { font-size: 1.5rem; color: #fff; font-weight: 800; letter-spacing: -0.5px; }
+        .badge-pill { background: var(--green-light); color: var(--green); padding: 6px 12px; border-radius: 99px; font-size: 0.85rem; font-weight: 800; border: 2px solid var(--green); }
 
-        /* Cards */
-        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2); }
-        h2 { font-size: 1.05rem; margin-bottom: 10px; color: #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        /* Duolingo Cards */
+        .card { background: var(--card-bg); border: 2px solid var(--card-border); border-bottom-width: 4px; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+        h2 { font-size: 1.1rem; margin-bottom: 12px; color: #fff; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
 
-        /* Next Up Banner */
-        .next-banner { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(147,51,234,0.2)); border: 1px solid rgba(99,102,241,0.4); border-radius: 12px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
-        .next-info div:first-child { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .next-info div:last-child { font-size: 1.05rem; font-weight: bold; color: #fff; margin-top: 2px; }
+        /* Next Banner */
+        .next-banner { background: linear-gradient(135deg, rgba(88,204,2,0.2), rgba(255,200,0,0.15)); border: 2px solid var(--green); border-bottom-width: 4px; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .next-info div:first-child { font-size: 0.75rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .next-info div:last-child { font-size: 1.1rem; font-weight: bold; color: #fff; margin-top: 2px; }
 
-        /* Stats & Chains */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; text-align: center; }
-        .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 2px; }
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-card { background: var(--card-bg); border: 2px solid var(--card-border); border-bottom-width: 4px; border-radius: 16px; padding: 16px; text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 900; color: var(--green); margin-top: 4px; }
         
         .chain-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
-        .chain-day { aspect-ratio: 1; background: var(--bg); border: 1px solid var(--card-border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-muted); }
-        .chain-day.lit { background: var(--success); color: #000; font-weight: bold; border-color: var(--success); }
+        .chain-day { aspect-ratio: 1; background: #111827; border: 2px solid var(--card-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--text-muted); font-weight: bold; }
+        .chain-day.lit { background: var(--green); color: #000; font-weight: 900; border-color: var(--green-dark); }
 
-        /* Habit List Items */
-        .habit-item { display: flex; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px; border-radius: 10px; margin-bottom: 10px; gap: 12px; }
-        .habit-check { width: 24px; height: 24px; border: 2px solid var(--card-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
-        .habit-item.completed .habit-check { background: var(--success); border-color: var(--success); color: #000; font-weight: bold; }
+        /* Habit Items */
+        .habit-item { display: flex; align-items: center; background: #111827; border: 2px solid var(--card-border); border-bottom-width: 4px; padding: 14px; border-radius: 14px; margin-bottom: 12px; gap: 14px; }
+        .habit-check { width: 30px; height: 30px; border: 3px solid var(--card-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; background: var(--card-bg); transition: all 0.2s; font-weight: 900; color: #000; }
+        .habit-item.completed .habit-check { background: var(--green); border-color: var(--green-dark); }
         .habit-content { flex-grow: 1; cursor: pointer; }
-        .habit-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
-        .habit-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 10px; }
+        .habit-title { font-size: 1rem; font-weight: 800; margin-bottom: 3px; color: #fff; }
+        .habit-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 12px; font-weight: 600; }
         .habit-item.completed .habit-title { text-decoration: line-through; color: var(--text-muted); }
 
-        /* 7-Day Mini Strip */
-        .mini-strip { display: flex; gap: 3px; margin-top: 6px; }
-        .strip-dot { width: 10px; height: 10px; border-radius: 2px; background: var(--bg); border: 1px solid var(--card-border); }
-        .strip-dot.done { background: var(--success); border-color: var(--success); }
-
         /* Buttons & Inputs */
-        input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--card-border); color: var(--text); padding: 10px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
-        .primary-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
-        .primary-btn:hover { background: var(--primary-hover); }
-        .btn-ai { background: linear-gradient(135deg, #4f46e5, #9333ea); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; margin-top: 6px; }
+        input, select, textarea { width: 100%; background: #111827; border: 2px solid var(--card-border); color: var(--text); padding: 12px; border-radius: 12px; font-size: 0.95rem; margin-bottom: 12px; font-weight: 600; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); }
+        .primary-btn { background: var(--green); color: #000; border: none; border-bottom: 4px solid var(--green-dark); padding: 14px; border-radius: 14px; font-weight: 900; width: 100%; cursor: pointer; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .primary-btn:active { border-bottom-width: 2px; transform: translateY(2px); }
+        
+        .btn-ai { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; border: none; border-bottom: 4px solid #3730a3; padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 8px; }
+        .btn-quiz { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; border: none; border-bottom: 4px solid #b45309; padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 8px; margin-left: 6px; }
 
-        /* Day Checkboxes for Management */
-        .day-select { display: flex; gap: 4px; margin-bottom: 10px; }
-        .day-btn { flex: 1; background: var(--bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 6px 0; border-radius: 4px; font-size: 0.75rem; cursor: pointer; text-align: center; }
-        .day-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: bold; }
+        .day-select { display: flex; gap: 6px; margin-bottom: 12px; }
+        .day-btn { flex: 1; background: #111827; border: 2px solid var(--card-border); color: var(--text-muted); padding: 8px 0; border-radius: 8px; font-size: 0.8rem; cursor: pointer; text-align: center; font-weight: 800; }
+        .day-btn.selected { background: var(--green); color: #000; border-color: var(--green-dark); }
 
-        .quote-box { font-style: italic; color: #cbd5e1; border-left: 3px solid var(--primary); padding-left: 10px; margin-bottom: 10px; font-size: 0.9rem; }
-        .back-link { color: var(--primary); font-size: 0.85rem; cursor: pointer; margin-bottom: 10px; display: inline-block; }
+        .quote-box { font-style: italic; color: #e2e8f0; border-left: 4px solid var(--green); padding-left: 12px; margin-bottom: 14px; font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
+        .back-link { color: var(--green); font-size: 0.9rem; cursor: pointer; margin-bottom: 12px; display: inline-block; font-weight: 800; }
+        .mini-strip { display: flex; gap: 4px; margin-top: 8px; }
+        .strip-dot { width: 12px; height: 12px; border-radius: 3px; background: #111827; border: 2px solid var(--card-border); }
+        .strip-dot.done { background: var(--green); border-color: var(--green-dark); }
     </style>
 </head>
 <body>
 
     <div class="container">
 
-        <!-- ================= VIEW 1: TODAY / DASHBOARD ================= -->
+        <!-- ================= VIEW 1: TODAY ================= -->
         <div id="view-dashboard" class="view active">
             <header>
-                <h1>Today's Execution</h1>
+                <h1>Discipline OS</h1>
                 <div class="badge-pill" id="levelBadge">Level 1 (0 XP)</div>
             </header>
 
             <div class="next-banner" id="nextBanner" style="display:none;">
                 <div class="next-info">
-                    <div>Next Up</div>
+                    <div>🔥 Next Up</div>
                     <div id="nextHabitTitle">-</div>
                 </div>
-                <button class="primary-btn" style="width: auto; padding: 6px 14px; font-size: 0.85rem;" onclick="startTimerFromNext()">Start Timer</button>
+                <button class="primary-btn" style="width: auto; padding: 8px 16px; font-size: 0.85rem;" onclick="startTimerFromNext()">Start</button>
             </div>
 
             <div class="stats-grid">
@@ -114,51 +113,60 @@
             </div>
 
             <div class="card">
-                <h2>28-Day Consistency Chain</h2>
+                <h2>📅 28-Day Consistency Chain</h2>
                 <div class="chain-grid" id="chainGrid"></div>
             </div>
 
             <div class="card">
-                <h2>Scheduled Habits</h2>
+                <h2>⚡ Today's Execution List</h2>
                 <div id="todayHabitList"></div>
             </div>
 
             <div class="card">
-                <h2>Daily Reflection Note</h2>
-                <textarea id="dailyNotes" placeholder="What went well? What will you sharpen tomorrow?"></textarea>
+                <h2>📝 Daily Reflection</h2>
+                <textarea id="dailyNotes" placeholder="What went well today? What will you sharpen tomorrow?"></textarea>
             </div>
         </div>
 
-        <!-- ================= VIEW 2: HABIT MANAGER ================= -->
+        <!-- ================= VIEW 2: HABITS MANAGER ================= -->
         <div id="view-habits" class="view">
             <header>
                 <h1>Manage Habits</h1>
             </header>
             
             <div class="card">
-                <h2>Create New Habit</h2>
-                <input type="text" id="newTitle" placeholder="Habit Name (e.g., Clinical Study)">
+                <h2>➕ Add Habit (Templates Built-in)</h2>
+                <select id="presetSelector" onchange="loadPreset(this.value)">
+                    <option value="">-- Choose Preset or Create Custom --</option>
+                    <option value="study">Focused Medical / Academic Study</option>
+                    <option value="skills">Piano & Skill Practice</option>
+                    <option value="exercise">Physical Conditioning / Exercise</option>
+                    <option value="sleep">Strict Sleep Routine</option>
+                    <option value="water">Hydration & Health</option>
+                    <option value="reading">Deep Reading & Literature</option>
+                </select>
+                
+                <input type="text" id="newTitle" placeholder="Habit Name">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div>
-                        <label style="font-size:0.75rem; color:var(--text-muted)">Reminder Time</label>
+                        <label style="font-size:0.75rem; color:var(--text-muted); font-weight:700">Time</label>
                         <input type="time" id="newTime" value="08:00">
                     </div>
                     <div>
-                        <label style="font-size:0.75rem; color:var(--text-muted)">Duration (mins)</label>
-                        <input type="number" id="newDuration" value="30" min="1">
+                        <label style="font-size:0.75rem; color:var(--text-muted); font-weight:700">Duration (mins)</label>
+                        <input type="number" id="newDuration" value="45" min="1">
                     </div>
                 </div>
                 <select id="newCategory">
-                    <option value="study">Study / Academic</option>
-                    <option value="skills">Skills / Piano</option>
-                    <option value="exercise">Exercise / Fitness</option>
-                    <option value="sleep">Sleep / Schedule</option>
-                    <option value="water">Hydration / Health</option>
-                    <option value="reading">Reading / Books</option>
-                    <option value="money">Finance / Business</option>
-                    <option value="general">General Discipline</option>
+                    <option value="study">Study</option>
+                    <option value="skills">Skills</option>
+                    <option value="exercise">Exercise</option>
+                    <option value="sleep">Sleep</option>
+                    <option value="water">Water</option>
+                    <option value="reading">Reading</option>
+                    <option value="general">General</option>
                 </select>
-                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Active Days</label>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px; font-weight:700">Active Days</label>
                 <div class="day-select" id="daySelectBtns">
                     <div class="day-btn selected" onclick="toggleDay(0)">M</div>
                     <div class="day-btn selected" onclick="toggleDay(1)">T</div>
@@ -168,7 +176,7 @@
                     <div class="day-btn selected" onclick="toggleDay(5)">S</div>
                     <div class="day-btn selected" onclick="toggleDay(6)">S</div>
                 </div>
-                <button class="primary-btn" onclick="addNewHabit()">Add Habit</button>
+                <button class="primary-btn" onclick="addNewHabit()">Save Habit</button>
             </div>
 
             <div class="card">
@@ -177,7 +185,7 @@
             </div>
         </div>
 
-        <!-- ================= VIEW 3: HABIT DETAIL PAGE ================= -->
+        <!-- ================= VIEW 3: HABIT DETAIL (Quotes, Books, AI Coach, Quiz) ================= -->
         <div id="view-habit-detail" class="view">
             <span class="back-link" onclick="switchView('dashboard', document.querySelectorAll('.nav-btn')[0])">← Back to Dashboard</span>
             <div id="habitDetailContent"></div>
@@ -189,31 +197,27 @@
                 <h1>Execution Timer</h1>
             </header>
             <div class="card" style="text-align: center; padding: 30px;">
-                <div id="timerHabitName" style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 10px;">Select a habit to time</div>
-                <div id="timerDisplay" style="font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 20px 0;">00:00</div>
+                <div id="timerHabitName" style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 700;">Select a habit</div>
+                <div id="timerDisplay" style="font-size: 4rem; font-weight: 900; color: var(--green); margin: 20px 0;">00:00</div>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button class="primary-btn" id="timerStartBtn" onclick="toggleTimer()" style="width: 120px;">Start</button>
-                    <button class="primary-btn" onclick="resetTimer()" style="width: 120px; background:#334155;">Reset</button>
-                    <button class="primary-btn" onclick="completeTimerEarly()" style="width: 120px; background:var(--success);">Done</button>
+                    <button class="primary-btn" id="timerStartBtn" onclick="toggleTimer()" style="width: 130px;">Start</button>
+                    <button class="primary-btn" onclick="resetTimer()" style="width: 130px; background:#374151; color:#fff;">Reset</button>
+                    <button class="primary-btn" onclick="completeTimerEarly()" style="width: 130px; background:var(--accent); color:#000;">Done</button>
                 </div>
             </div>
         </div>
 
-        <!-- ================= VIEW 5: PROGRESS & ANALYTICS ================= -->
+        <!-- ================= VIEW 5: PROGRESS ================= -->
         <div id="view-progress" class="view">
             <header>
                 <h1>Progress & Analytics</h1>
             </header>
             <div class="card">
-                <h2>Weekly Review</h2>
-                <div id="weeklyReviewText" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">Analyzing your execution data...</div>
+                <h2>📊 Weekly Review & Scores</h2>
+                <div id="weeklyReviewText" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; font-weight: 600;">Analyzing your execution...</div>
             </div>
             <div class="card">
-                <h2>14-Day Scores</h2>
-                <div id="fourteenDayScores" style="display: flex; gap: 4px; align-items: flex-end; height: 80px; padding-top: 10px;"></div>
-            </div>
-            <div class="card">
-                <h2>Earned Badges</h2>
+                <h2>🏆 Milestones & Badges</h2>
                 <div id="badgesContainer" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
             </div>
         </div>
@@ -221,17 +225,16 @@
         <!-- ================= VIEW 6: SETTINGS ================= -->
         <div id="view-settings" class="view">
             <header>
-                <h1>Settings & Backup</h1>
+                <h1>Settings & Data</h1>
             </header>
             <div class="card">
-                <h2>System Notifications</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Receive browser alerts when it's time for your habits.</p>
-                <button class="primary-btn" onclick="requestNotifications()">Enable Notifications</button>
+                <h2>🔔 System Notifications</h2>
+                <button class="primary-btn" onclick="requestNotifications()">Enable Alerts</button>
             </div>
             <div class="card">
-                <h2>Data Management</h2>
-                <button class="primary-btn" style="background:#334155; margin-bottom: 8px;" onclick="exportData()">Export Data Backup</button>
-                <button class="primary-btn" style="background:#ef4444;" onclick="resetAllData()">Reset All App Data</button>
+                <h2>💾 Data Management</h2>
+                <button class="primary-btn" style="background:#374151; color:#fff; margin-bottom: 10px;" onclick="exportData()">Export Backup JSON</button>
+                <button class="primary-btn" style="background:var(--danger); color:#fff;" onclick="resetAllData()">Reset Everything</button>
             </div>
         </div>
 
@@ -240,7 +243,7 @@
     <!-- BOTTOM NAVIGATION -->
     <nav>
         <button class="nav-btn active" onclick="switchView('dashboard', this)">
-            <span class="nav-icon">⚡</span> Today
+            <span class="nav-icon">🎯</span> Today
         </button>
         <button class="nav-btn" onclick="switchView('habits', this)">
             <span class="nav-icon">⚙️</span> Habits
@@ -257,7 +260,6 @@
     </nav>
 
     <script>
-        // State & Initial Data
         let habits = JSON.parse(localStorage.getItem('disc_habits')) || [
             { id: 'study', title: 'Focused Medical Study', time: '08:00', duration: 60, category: 'study', days: [1,1,1,1,1,0,0], streak: 0 },
             { id: 'piano', title: 'Piano & Skill Practice', time: '14:00', duration: 45, category: 'skills', days: [1,1,1,1,1,1,1], streak: 0 },
@@ -269,22 +271,34 @@
         let appData = JSON.parse(localStorage.getItem('disc_data_' + todayKey)) || { completed: {}, notes: '', xp: 0 };
         let historyData = JSON.parse(localStorage.getItem('disc_history')) || {};
 
-        // Quote banks per category
+        // Comprehensive Quote Banks per category
         const quoteBanks = {
             study: [
                 "Discipline is choosing between what you want now and what you want most. — Abraham Lincoln",
                 "An investment in knowledge pays the best interest. — Benjamin Franklin",
-                "The expert in anything was once a beginner."
+                "The expert in anything was once a beginner. Keep compounding your knowledge."
             ],
             skills: [
                 "Practice does not make perfect. Only perfect practice makes perfect. — Vince Lombardi",
                 "Small daily improvements over time lead to stunning results.",
-                "Mastery requires patience, deliberate focus, and embracing the tedious."
+                "Mastery requires patience, deliberate focus, and embracing the awkward phase."
             ],
             exercise: [
                 "Take care of your body. It's the only place you have to live. — Jim Rohn",
                 "Action conquers fear. Move your body to clear your mind.",
                 "Discipline in physical training translates directly to mental fortitude."
+            ],
+            sleep: [
+                "Sleep is the golden chain that ties health and our bodies together. — Thomas Dekker",
+                "Rest is not idleness, and to lie sometimes on the grass under trees is truly spending time."
+            ],
+            water: [
+                "Water is the driving force of all nature. — Leonardo da Vinci",
+                "Hydration fuels cognition, energy, and peak biological performance."
+            ],
+            reading: [
+                "Reading is to the mind while exercise is to the body. — Joseph Addison",
+                "A reader lives a thousand lives before he dies."
             ],
             general: [
                 "We are what we repeatedly do. Excellence is not an act, but a habit. — Aristotle",
@@ -294,12 +308,32 @@
 
         const bookSummaries = {
             study: { title: "Atomic Habits by James Clear", summary: "Focuses on systems over goals. Make your study environment obvious, attractive, easy, and satisfying." },
-            skills: { title: "Mastery by Robert Greene", summary: "Emphasizes apprenticeship, deep immersion, and enduring the tedious phases to reach intuition." },
+            skills: { title: "Mastery by Robert Greene", summary: "Emphasizes apprenticeship, deep immersion, and enduring tedious phases to reach true intuition." },
             exercise: { title: "Spark by John Ratey", summary: "Exercise builds neuroplasticity, sharpens focus, and directly upgrades cognitive performance." },
-            general: { title: "The Compound Effect by Darren Hardy", summary: "Small, smart choices + consistency + time = radical difference." }
+            sleep: { title: "Why We Sleep by Matthew Walker", summary: "Sleep is vital for memory consolidation, immune health, emotional regulation, and longevity." },
+            water: { title: "The Blue Zones by Dan Buettner", summary: "Simple daily health pillars—clean hydration, natural movement, and community—drive vibrant longevity." },
+            reading: { title: "How to Read a Book by Mortimer J. Adler", summary: "Active, analytical reading turns passive absorption into deep, retained knowledge." },
+            general: { title: "The Compound Effect by Darren Hardy", summary: "Small, smart choices + consistency + time = radical transformation." }
         };
 
-        // Navigation
+        function loadPreset(val) {
+            if(!val) return;
+            const presets = {
+                study: { title: 'Focused Medical Study', cat: 'study', dur: 60 },
+                skills: { title: 'Piano & Skill Practice', cat: 'skills', dur: 45 },
+                exercise: { title: 'Physical Conditioning', cat: 'exercise', dur: 45 },
+                sleep: { title: 'Sleep & Wind-Down Routine', cat: 'sleep', dur: 30 },
+                water: { title: 'Hydration & Nutrition Goal', cat: 'water', dur: 15 },
+                reading: { title: 'Deep Reading & Literature', cat: 'reading', dur: 30 }
+            };
+            const p = presets[val];
+            if(p) {
+                document.getElementById('newTitle').value = p.title;
+                document.getElementById('newCategory').value = p.cat;
+                document.getElementById('newDuration').value = p.dur;
+            }
+        }
+
         function switchView(viewName, btnEl) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -308,7 +342,6 @@
             if(viewName === 'progress') renderProgress();
         }
 
-        // Dashboard Rendering
         function renderDashboard() {
             const listEl = document.getElementById('todayHabitList');
             listEl.innerHTML = '';
@@ -316,7 +349,7 @@
             let scheduledTodayCount = 0;
             let nextHabit = null;
 
-            const dayOfWeek = (new Date().getDay() + 6) % 7; // Monday = 0
+            const dayOfWeek = (new Date().getDay() + 6) % 7;
 
             habits.forEach(habit => {
                 const isScheduled = habit.days && habit.days[dayOfWeek] === 1;
@@ -327,7 +360,6 @@
                 if (isChecked) completedCount++;
                 else if (!nextHabit) nextHabit = habit;
 
-                // 7-day strip calculation
                 let stripHtml = '<div class="mini-strip">';
                 for(let i=6; i>=0; i--) {
                     const d = new Date();
@@ -355,20 +387,17 @@
                 listEl.appendChild(div);
             });
 
-            // Next Up Banner
             if(nextHabit) {
                 document.getElementById('nextBanner').style.display = 'flex';
-                document.getElementById('nextHabitTitle').innerText = `${nextHabit.title} at ${nextHabit.time} (${nextHabit.duration}m)`;
+                document.getElementById('nextHabitTitle').innerText = `${nextHabit.title} at ${nextHabit.time}`;
                 window.currentNextHabitId = nextHabit.id;
             } else {
                 document.getElementById('nextBanner').style.display = 'none';
             }
 
-            // Score & Chain
             const score = scheduledTodayCount > 0 ? Math.round((completedCount / scheduledTodayCount) * 100) : 0;
             document.getElementById('todayScoreText').innerText = score + '%';
 
-            // Level & XP
             const xp = appData.xp || 0;
             const level = Math.floor(xp / 100) + 1;
             document.getElementById('levelBadge').innerText = `Level ${level} (${xp} XP)`;
@@ -400,7 +429,6 @@
             localStorage.setItem('disc_habits', JSON.stringify(habits));
         }
 
-        // 28-Day Consistency Chain
         function renderChain(isPerfectToday) {
             const grid = document.getElementById('chainGrid');
             grid.innerHTML = '';
@@ -421,7 +449,6 @@
             }
         }
 
-        // Habit Detail View
         function openHabitDetail(id) {
             const habit = habits.find(h => h.id === id);
             if(!habit) return;
@@ -434,35 +461,31 @@
             const detailEl = document.getElementById('habitDetailContent');
             detailEl.innerHTML = `
                 <div class="card">
-                    <h2>${habit.title}</h2>
+                    <h2>✨ ${habit.title}</h2>
                     <div class="quote-box">"${quote}"</div>
-                    <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
-                        <strong>What it helps:</strong> Builds high-yield compounding discipline, mental stamina, and mastery in ${habit.category}.<br>
-                        <strong>How to do it better:</strong> Eliminate all notifications, isolate your workspace, and focus on uninterrupted deep blocks.
+                    <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:14px; font-weight:600; line-height:1.4;">
+                        <strong>What it helps:</strong> Builds compounding discipline and mastery in ${habit.category}.<br><br>
+                        <strong>How to execute better:</strong> Eliminate distractions, set strict time blocks, and embrace deliberate practice.
                     </div>
-                    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); padding:12px; border-radius:8px; margin-bottom:12px;">
-                        <div style="font-weight:bold; color:var(--accent); font-size:0.9rem;">📖 ${book.title}</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">${book.summary}</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>AI Coach & Quizzes</h2>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">Describe your challenge or generate an instant competence quiz via Claude AI.</p>
-                    <textarea id="aiChallenge" placeholder="What gets in your way today? (e.g. fatigue, distraction)"></textarea>
-                    <a href="#" onclick="launchClaudeCoach('${habit.title}')" class="btn-ai">🧠 Ask AI Coach</a>
-                    <div style="margin-top: 14px;">
-                        <select id="quizDiff">
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate" selected>Intermediate</option>
-                            <option value="rigorous">Rigorous / Expert</option>
-                        </select>
-                        <a href="#" onclick="launchClaudeQuiz('${habit.title}')" class="btn-ai" style="background:var(--success); color:#000;">⚡ Quiz Me (5 Questions)</a>
+                    <div style="background:#111827; border:2px solid var(--card-border); padding:14px; border-radius:12px;">
+                        <div style="font-weight:900; color:var(--accent); font-size:0.95rem; margin-bottom:4px;">📖 Book Summary: ${book.title}</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600; line-height:1.4;">${book.summary}</div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2>Execution Timer</h2>
+                    <h2>🧠 AI Coach & Competence Quiz</h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px; font-weight:600;">Direct integration with Claude AI for instant coaching or testing:</p>
+                    <textarea id="aiChallenge" placeholder="What is your blocker today? (e.g. fatigue, distraction)"></textarea>
+                    
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <a href="#" onclick="launchClaudeCoach('${habit.title}')" class="btn-ai">🧠 Ask AI Coach</a>
+                        <a href="#" onclick="launchClaudeQuiz('${habit.title}')" class="btn-quiz">⚡ Quiz Me (5 Qs)</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>⏱️ Execution Timer</h2>
                     <button class="primary-btn" onclick="startTimerForHabit('${habit.id}', ${habit.duration})">Launch Timer (${habit.duration} mins)</button>
                 </div>
             `;
@@ -470,18 +493,16 @@
         }
 
         function launchClaudeCoach(habitTitle) {
-            const challenge = document.getElementById('aiChallenge').value || "general discipline";
-            const prompt = `I am working on my habit "${habitTitle}". My current challenge/blocker is: ${challenge}. Act as an elite discipline coach and mentor, provide actionable advice, tactical steps, and motivation.`;
+            const challenge = document.getElementById('aiChallenge').value || "maintaining discipline";
+            const prompt = `I am executing my habit "${habitTitle}". My current blocker is: ${challenge}. Act as an elite discipline coach, give me direct tactical advice and motivation.`;
             window.open(`https://claude.ai/new?q=${encodeURIComponent(prompt)}`, '_blank');
         }
 
         function launchClaudeQuiz(habitTitle) {
-            const diff = document.getElementById('quizDiff').value;
-            const prompt = `Act as a rigorous professor. Generate a 5-question ${diff} level quiz on "${habitTitle}". Ask the questions ONE AT A TIME, wait for my response to each before giving the answer or moving to the next question.`;
+            const prompt = `Act as a rigorous professor. Generate a 5-question competence quiz on "${habitTitle}". Ask the questions ONE AT A TIME and wait for my answer before proceeding.`;
             window.open(`https://claude.ai/new?q=${encodeURIComponent(prompt)}`, '_blank');
         }
 
-        // Habit Management
         function toggleDay(index) {
             selectedNewDays[index] = selectedNewDays[index] === 1 ? 0 : 1;
             const btn = document.querySelectorAll('.day-btn')[index];
@@ -506,7 +527,7 @@
             document.getElementById('newTitle').value = '';
             renderDashboard();
             renderManagerList();
-            alert('Habit created!');
+            alert('Habit saved successfully!');
         }
 
         function renderManagerList() {
@@ -518,9 +539,9 @@
                 div.innerHTML = `
                     <div class="habit-content">
                         <div class="habit-title">${h.title}</div>
-                        <div class="habit-meta">⏰ ${h.time} | ⏱️ ${h.duration}m | 🔥 ${h.streak || 0} streak</div>
+                        <div class="habit-meta">⏰ ${h.time} | ⏱️ ${h.duration}m | 🔥 ${h.streak || 0}d</div>
                     </div>
-                    <button style="background:var(--danger); color:#fff; border:none; padding:6px 10px; border-radius:6px; cursor:pointer;" onclick="deleteHabit('${h.id}')">Delete</button>
+                    <button style="background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:800;" onclick="deleteHabit('${h.id}')">X</button>
                 `;
                 list.appendChild(div);
             });
@@ -535,7 +556,6 @@
             }
         }
 
-        // Timer Logic
         let timerInterval = null;
         let timeLeft = 0;
         let activeTimerHabitId = null;
@@ -544,7 +564,7 @@
             activeTimerHabitId = id;
             timeLeft = durationMins * 60;
             const habit = habits.find(h => h.id === id);
-            document.getElementById('timerHabitName').innerText = habit ? habit.title : 'Execution Timer';
+            document.getElementById('timerHabitName').innerText = habit ? habit.title : 'Timer';
             switchView('timer', document.querySelectorAll('.nav-btn')[2]);
             updateTimerDisplay();
         }
@@ -571,10 +591,8 @@
                         clearInterval(timerInterval);
                         timerInterval = null;
                         document.getElementById('timerStartBtn').innerText = 'Start';
-                        alert('Timer finished! Habit marked done.');
-                        if(activeTimerHabitId) {
-                            if(!appData.completed[activeTimerHabitId]) toggleHabit(activeTimerHabitId);
-                        }
+                        alert('Timer finished! Habit completed.');
+                        if(activeTimerHabitId && !appData.completed[activeTimerHabitId]) toggleHabit(activeTimerHabitId);
                     }
                 }, 1000);
             }
@@ -593,7 +611,7 @@
             if(activeTimerHabitId && !appData.completed[activeTimerHabitId]) {
                 toggleHabit(activeTimerHabitId);
             }
-            alert('Habit completed successfully!');
+            alert('Great execution!');
             switchView('dashboard', document.querySelectorAll('.nav-btn')[0]);
         }
 
@@ -603,62 +621,36 @@
             document.getElementById('timerDisplay').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
-        // Progress & Analytics View
         function renderProgress() {
-            // 14-Day Scores
-            const scoresEl = document.getElementById('fourteenDayScores');
-            scoresEl.innerHTML = '';
-            for(let i=13; i>=0; i--) {
-                const d = new Date();
-                d.setDate(d.getDate() - i);
-                const k = d.toISOString().split('T')[0];
-                const day = historyData[k] || {};
-                const completed = Object.values(day).filter(Boolean).length;
-                const total = Math.max(1, Object.keys(day).length);
-                const pct = Math.round((completed / total) * 100);
-
-                const bar = document.createElement('div');
-                bar.style.flex = '1';
-                bar.style.height = Math.max(10, pct) + '%';
-                bar.style.background = pct === 100 ? 'var(--success)' : 'var(--primary)';
-                bar.style.borderRadius = '3px 3px 0 0';
-                bar.title = `${k}: ${pct}%`;
-                scoresEl.appendChild(bar);
-            }
-
-            // Badges
-            const badgesEl = document.getElementById('badgesContainer');
-            badgesEl.innerHTML = '';
             const totalDone = Object.values(historyData).reduce((acc, day) => acc + Object.values(day).filter(Boolean).length, 0);
             
+            const badgesEl = document.getElementById('badgesContainer');
+            badgesEl.innerHTML = '';
             const badges = [
-                { name: '🔥 7-Day Spark', unlocked: totalDone >= 7 },
-                { name: '⚡ 21-Day Architect', unlocked: totalDone >= 21 },
-                { name: '🏆 66-Day Master', unlocked: totalDone >= 66 }
+                { name: '🔥 7 Executions', unlocked: totalDone >= 7 },
+                { name: '⚡ 21 Architect', unlocked: totalDone >= 21 },
+                { name: '🏆 66 Mastery', unlocked: totalDone >= 66 }
             ];
 
             badges.forEach(b => {
                 const div = document.createElement('div');
-                div.style.padding = '8px 12px';
-                div.style.borderRadius = '8px';
-                div.style.background = b.unlocked ? 'rgba(34, 197, 94, 0.15)' : 'rgba(255,255,255,0.03)';
-                div.style.border = `1px solid ${b.unlocked ? 'var(--success)' : 'var(--card-border)'}`;
-                div.style.color = b.unlocked ? '#22c55e' : 'var(--text-muted)';
+                div.style.padding = '10px 14px';
+                div.style.borderRadius = '10px';
+                div.style.background = b.unlocked ? 'var(--green-light)' : '#111827';
+                div.style.border = `2px solid ${b.unlocked ? 'var(--green)' : 'var(--card-border)'}`;
+                div.style.color = b.unlocked ? 'var(--green)' : 'var(--text-muted)';
+                div.style.fontWeight = '800';
                 div.style.fontSize = '0.85rem';
                 div.innerText = b.name;
                 badgesEl.appendChild(div);
             });
 
-            // Weekly Review
-            document.getElementById('weeklyReviewText').innerText = `You have successfully executed ${totalDone} habits overall. Keep your streak alive by maintaining 100% daily consistency!`;
+            document.getElementById('weeklyReviewText').innerText = `You have completed ${totalDone} total habits. Your consistency is compounding daily. Keep pushing!`;
         }
 
-        // Settings & Notifications
         function requestNotifications() {
             if("Notification" in window) {
-                Notification.requestPermission().then(permission => {
-                    if(permission === 'granted') alert('Notifications enabled!');
-                });
+                Notification.requestPermission().then(p => { if(p==='granted') alert('Notifications enabled!'); });
             }
         }
 
@@ -673,17 +665,13 @@
         }
 
         function resetAllData() {
-            if(confirm('Are you sure you want to reset all app data?')) {
-                localStorage.clear();
-                location.reload();
-            }
+            if(confirm('Reset all app data?')) { localStorage.clear(); location.reload(); }
         }
 
         function saveAppData() {
             localStorage.setItem('disc_data_' + todayKey, JSON.stringify(appData));
         }
 
-        // Initial Renders
         renderDashboard();
         renderManagerList();
     </script>
