@@ -1,13 +1,15 @@
 {
   "name": "Discipline — Daily Habits",
   "short_name": "Discipline",
-  "description": "A focused habit tracker with a curated library of 55+ practices, philosopher quotes and book summaries.",
+  "description": "A focused habit tracker with a curated library of 55 practices, philosopher quotes and book summaries. Works offline.",
   "start_url": "./",
   "scope": "./",
+  "id": "discipline-tracker",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0f1215",
   "theme_color": "#0f1215",
+  "lang": "en",
   "categories": ["productivity", "health", "lifestyle"],
   "icons": [
     {
