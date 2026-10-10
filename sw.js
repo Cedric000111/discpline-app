@@ -1,39 +1,61 @@
-/* Discipline Tracker — service worker */
-const CACHE = "discipline-v2";
-const ASSETS = ["./", "./index.html", "./manifest.json"];
+/* Discipline Tracker — service worker v3
+   Strategy:
+   - HTML (navigation): network-first, cache as fallback so we never serve a stale shell.
+   - Everything else: cache-first, fetch-and-store on miss.
+   - On activation: wipe all previous caches (fixes the "blank screen after install" bug). */
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+const CACHE = "discipline-v3";
+
+self.addEventListener("install", () => {
+  self.skipWaiting();
 });
 
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+self.addEventListener("activate", (event) => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map((k) => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener("fetch", (e) => {
-  const req = e.request;
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
   if (req.method !== "GET") return;
+
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
 
-  e.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-      return fetch(req)
+  const isHTML =
+    req.mode === "navigate" ||
+    (req.headers.get("accept") || "").includes("text/html") ||
+    url.pathname.endsWith(".html") ||
+    url.pathname.endsWith("/");
+
+  if (isHTML) {
+    event.respondWith(
+      fetch(req)
         .then((res) => {
           if (res && res.ok) {
-            const clone = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, clone));
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy));
           }
           return res;
         })
-        .catch(() => caches.match("./index.html"));
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then((hit) => {
+      if (hit) return hit;
+      return fetch(req).then((res) => {
+        if (res && res.ok && !url.pathname.endsWith("/sw.js")) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy));
+        }
+        return res;
+      });
     })
   );
 });
